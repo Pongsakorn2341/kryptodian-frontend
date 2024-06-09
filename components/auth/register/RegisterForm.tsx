@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { IRegisterSchema, registerSchema } from "@/lib/zod/register.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const form = useForm<IRegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
@@ -73,6 +74,11 @@ export default function RegisterForm() {
           {...form.register("password")}
           className="text-gray-500"
         />
+        {errors.password && (
+          <span className="text-red-500 text-sm">
+            {errors.password.message}
+          </span>
+        )}
       </div>
       <div>
         <Label htmlFor="confirm-password">Confirm Password</Label>
@@ -82,11 +88,22 @@ export default function RegisterForm() {
           {...form.register("confirm_password")}
           className="text-gray-500"
         />
+        {errors.confirm_password && (
+          <span className="text-red-500 text-sm">
+            {errors.confirm_password.message}
+          </span>
+        )}
       </div>
-      {errors.password && (
-        <span className="text-red-500 text-sm">{errors.password.message}</span>
-      )}
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <Button
+          type="submit"
+          variant={"link"}
+          onClick={() => router.push(`/sign-in`)}
+          disabled={isLoading}
+        >
+          Login
+        </Button>
+
         <Button type="submit" disabled={isLoading}>
           {isLoading ? <LoadingSpinner /> : `Register`}
         </Button>
