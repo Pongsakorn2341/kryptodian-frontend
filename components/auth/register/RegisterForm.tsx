@@ -13,27 +13,55 @@ export default function RegisterForm() {
   });
   const { errors } = form.formState;
 
-  const handleSubmit = (data: IRegisterSchema) => {};
+  const handleSubmit = (data: IRegisterSchema) => {
+    if (data.confirm_password != data.password) {
+      form.setError("confirm_password", {
+        message: `Confirm password is mismatch.`,
+      });
+      return;
+    }
+  };
 
   return (
-    <form className="space-y-6" onSubmit={form.handleSubmit(handleSubmit)}>
+    <form
+      className="space-y-6 w-full"
+      onSubmit={form.handleSubmit(handleSubmit)}
+    >
+      <h1>Registeration</h1>
       <div>
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" type="text" {...form.register("name")} />
+        <Label htmlFor="name" className="">
+          Name
+        </Label>
+        <Input
+          id="name"
+          type="text"
+          {...form.register("name")}
+          className="text-gray-500"
+        />
         {errors.name && (
           <span className="text-red-500">{errors.name.message}</span>
         )}
       </div>
       <div>
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" {...form.register("email")} />
+        <Input
+          id="email"
+          type="email"
+          {...form.register("email")}
+          className="text-gray-500"
+        />
         {errors.email && (
           <span className="text-red-500">{errors.email.message}</span>
         )}
       </div>
       <div>
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" {...form.register("password")} />
+        <Input
+          id="password"
+          type="password"
+          {...form.register("password")}
+          className="text-gray-500"
+        />
       </div>
       <div>
         <Label htmlFor="confirm-password">Confirm Password</Label>
@@ -41,12 +69,15 @@ export default function RegisterForm() {
           id="confirm-password"
           type="password"
           {...form.register("confirm_password")}
+          className="text-gray-500"
         />
       </div>
       {errors.password && (
-        <span className="text-red-500">{errors.password.message}</span>
+        <span className="text-red-500 text-sm">{errors.password.message}</span>
       )}
-      <Button type="submit">Register</Button>
+      <div className="flex justify-end">
+        <Button type="submit">Register</Button>
+      </div>
     </form>
   );
 }
