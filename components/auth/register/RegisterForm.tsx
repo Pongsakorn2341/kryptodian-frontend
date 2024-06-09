@@ -1,13 +1,18 @@
 "use client";
 
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { IRegisterSchema, registerSchema } from "@/lib/zod/register.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<IRegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
@@ -15,11 +20,19 @@ export default function RegisterForm() {
 
   const handleSubmit = (data: IRegisterSchema) => {
     if (data.confirm_password != data.password) {
-      form.setError("confirm_password", {
+      return form.setError("confirm_password", {
         message: `Confirm password is mismatch.`,
       });
-      return;
     }
+    try {
+      setIsLoading(true);
+    } catch (e) {
+    } finally {
+      setTimeout(() => {
+        setIsLoading((prev) => false);
+      }, 2000);
+    }
+    toast.success(`Yess`);
   };
 
   return (
@@ -29,9 +42,7 @@ export default function RegisterForm() {
     >
       <h1>Registeration</h1>
       <div>
-        <Label htmlFor="name" className="">
-          Name
-        </Label>
+        <Label htmlFor="name">Name</Label>
         <Input
           id="name"
           type="text"
@@ -76,7 +87,9 @@ export default function RegisterForm() {
         <span className="text-red-500 text-sm">{errors.password.message}</span>
       )}
       <div className="flex justify-end">
-        <Button type="submit">Register</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <LoadingSpinner /> : `Register`}
+        </Button>
       </div>
     </form>
   );
