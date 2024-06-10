@@ -7,7 +7,9 @@ type usePortfolioProps = {
   portId: string;
 };
 
-const usePortfolio = <T = IPortfolio[]>(searchData?: usePortfolioProps) => {
+const usePortfolio = <T = Omit<IPortfolio, "Coins">[]>(
+  searchData?: usePortfolioProps
+) => {
   const [ports, setPorts] = useState<IPortfolio[]>([]);
   const [portData, setPortData] = useState<IPortfolio | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +28,9 @@ const usePortfolio = <T = IPortfolio[]>(searchData?: usePortfolioProps) => {
           if (response.status == "failed") return;
           setPortData(response?.data);
         } else {
-          const response = await handleFetchBackend<IPortfolio[]>({
+          const response = await handleFetchBackend<
+            Omit<IPortfolio, "Coins">[]
+          >({
             path: `/portfolio`,
             method: "GET",
             signal,
