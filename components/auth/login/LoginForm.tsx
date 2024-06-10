@@ -79,9 +79,9 @@ export default function LoginForm() {
       </div>
       <div className="flex justify-between">
         <Button
-          type="submit"
+          type="button"
           variant={"link"}
-          onClick={() => router.push(`/auth/login`)}
+          onClick={() => router.push(`/auth/sign-up`)}
           disabled={isLoading}
         >
           Don&apos;t have an account?

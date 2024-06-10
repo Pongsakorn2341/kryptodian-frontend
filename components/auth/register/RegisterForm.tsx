@@ -96,7 +96,7 @@ export default function RegisterForm() {
       </div>
       <div className="flex justify-between">
         <Button
-          type="submit"
+          type="button"
           variant={"link"}
           onClick={() => router.push(`/auth/login`)}
           disabled={isLoading}
