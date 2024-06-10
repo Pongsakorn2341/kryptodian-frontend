@@ -94,13 +94,6 @@ export const handleError = (
     result.message = error.message;
   } else if (error && typeof error === "string") {
     result.message = error;
-  } else if (
-    error &&
-    typeof error === "object" &&
-    "message" in error &&
-    typeof (error as { message?: unknown }).message === "string"
-  ) {
-    result.message = String(error.message);
   }
   if (error && typeof error === "object" && "code" in error) {
     result.code = Number(error.code);
@@ -116,10 +109,8 @@ export const handleError = (
     });
   }
   if (isPopup && result.isAbort == false) {
+    console.log(`RESEE`, result);
     console.log(`%c [ERROR] : ${result.message}`);
-    if (result.message.includes("channels.0.unique_platform_account_id")) {
-      result.message = `Streaming record is required.`;
-    }
     toast.error(result.message);
   }
   return result;
