@@ -96,19 +96,17 @@ export const handleFetchBackend = async <T>({
     const queryString = new URLSearchParams(
       removeUndefinedValues(query)
     ).toString();
-    const url = `${publicRuntimeConfig.AI_BACKEND_URL}${path}${
+    const url = `${publicRuntimeConfig.BACKEND_URL}${path}${
       queryString && queryString.length >= 1 ? "?" + queryString : ""
     }`;
+    console.log("🚀 ~ url:", url);
     const headers = new Headers();
     if (formData == undefined) {
       headers.append("Content-Type", "application/json");
     }
-    headers.append("appName", process.env.NEXT_PUBLIC_APP_NAME ?? "voxxy");
     if (withCredential) {
       headers.append("Authorization", `Bearer ${accessToken}`);
     }
-    // console.log(`%c -- ${new Date()} -- `, 'color: skyblue;');
-    // console.log(`%c ${method}: ${url}`, 'color: orange');
     const response = await fetch(
       url,
       removeUndefinedValues({

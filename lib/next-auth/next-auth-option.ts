@@ -1,9 +1,7 @@
-import { NextAuthOptions, DefaultSession, Session, User } from "next-auth";
+import { DefaultSession, NextAuthOptions, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { handleFetchBackend } from "../utils";
 import { handleError } from "../helper";
-// import { handleFetchBackend } from "@/utils/utils";
-// import { handleError } from "./misc";
+import { handleFetchBackend } from "../utils";
 
 declare module "next-auth" {
   interface Session {
@@ -62,6 +60,7 @@ export const authOptions: NextAuthOptions = {
             isThrowError: true,
             body: payload,
           });
+          console.log(`RESPONSE : `, response);
           if (response.status === "success") {
             const result = response.data;
             return {
@@ -72,6 +71,7 @@ export const authOptions: NextAuthOptions = {
           }
         } catch (e) {
           const _err = handleError(e, false);
+          console.log("🚀 ~ authorize ~ _err:", _err);
           throw new Error(_err.message);
         }
         return null;
@@ -97,13 +97,13 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, user, token, trigger }) {
       if (token.user) {
-        session.user = token.user as User & DefaultSession["user"];
+        session.user = token?.user as User & DefaultSession["user"];
       }
       if ((token.user as User).expires_at) {
-        session.expires_at = (token.user as User).expires_at as string;
+        session.expires_at = (token?.user as User)?.expires_at as string;
       }
       if ((token.user as User).access_token) {
-        session.access_token = (token.user as User).access_token as string;
+        session.access_token = (token?.user as User)?.access_token as string;
       }
       if (trigger === "update" && token?.user) {
         (session.user as any).image = (token?.user as any)?.image as User &

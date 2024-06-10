@@ -4,36 +4,45 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { IRegisterSchema, registerSchema } from "@/lib/zod/register.zod";
+import { handleError } from "@/lib/helper";
+import { ILoginSchema, loginSchema } from "@/lib/zod/login.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const form = useForm<IRegisterSchema>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<ILoginSchema>({
+    resolver: zodResolver(loginSchema),
   });
   const { errors } = form.formState;
 
-  const handleSubmit = (data: IRegisterSchema) => {
-    if (data.confirm_password != data.password) {
-      return form.setError("confirm_password", {
-        message: `Confirm password is mismatch.`,
-      });
-    }
+  const handleSubmit = async (data: ILoginSchema) => {
     try {
       setIsLoading(true);
+      const res = await signIn("credentials", {
+        ...data,
+        action: "login",
+        redirect: false,
+      });
+      if (res?.ok) {
+        toast.success(`Yess`);
+      } else if (res?.error) {
+        throw new Error(res?.error);
+      }
     } catch (e) {
+      const _msg = handleError(e);
+      console.log("🚀 ~ handleSubmit ~ _msg:", _msg);
+      toast.error(_msg.message);
     } finally {
       setTimeout(() => {
         setIsLoading((prev) => false);
       }, 2000);
     }
-    toast.success(`Yess`);
   };
 
   return (
@@ -41,19 +50,7 @@ export default function RegisterForm() {
       className="space-y-6 w-full"
       onSubmit={form.handleSubmit(handleSubmit)}
     >
-      <h1>Registeration</h1>
-      <div>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          type="text"
-          {...form.register("name")}
-          className="text-gray-500"
-        />
-        {errors.name && (
-          <span className="text-red-500">{errors.name.message}</span>
-        )}
-      </div>
+      <h1>Login</h1>
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
@@ -80,20 +77,6 @@ export default function RegisterForm() {
           </span>
         )}
       </div>
-      <div>
-        <Label htmlFor="confirm-password">Confirm Password</Label>
-        <Input
-          id="confirm-password"
-          type="password"
-          {...form.register("confirm_password")}
-          className="text-gray-500"
-        />
-        {errors.confirm_password && (
-          <span className="text-red-500 text-sm">
-            {errors.confirm_password.message}
-          </span>
-        )}
-      </div>
       <div className="flex justify-between">
         <Button
           type="submit"
@@ -101,11 +84,11 @@ export default function RegisterForm() {
           onClick={() => router.push(`/auth/login`)}
           disabled={isLoading}
         >
-          Login
+          Don&apos;t have an account?
         </Button>
 
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? <LoadingSpinner /> : `Register`}
+          {isLoading ? <LoadingSpinner /> : `Login`}
         </Button>
       </div>
     </form>
