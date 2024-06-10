@@ -90,13 +90,13 @@ export const handleFetchBackend = async <T>({
   withCredential = true,
   formData,
 }: HandleFetchBackendProps): Promise<FetchBackendResponse<T>> => {
+  "use client";
   try {
-    const { publicRuntimeConfig } = getConfig();
     const accessToken = await getAccessToken();
     const queryString = new URLSearchParams(
       removeUndefinedValues(query)
     ).toString();
-    const url = `${publicRuntimeConfig.BACKEND_URL}${path}${
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}${path}${
       queryString && queryString.length >= 1 ? "?" + queryString : ""
     }`;
     console.log("🚀 ~ url:", url);
