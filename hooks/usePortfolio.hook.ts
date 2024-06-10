@@ -12,7 +12,9 @@ const usePortfolio = <T = Omit<IPortfolio, "Coins">[]>(
 ) => {
   const [ports, setPorts] = useState<IPortfolio[]>([]);
   const [portData, setPortData] = useState<IPortfolio | null>(null);
+  const [toggle, setToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const portId = searchData?.portId;
   const fetchPortfolio = useCallback(
     async (signal: AbortSignal) => {
@@ -46,7 +48,7 @@ const usePortfolio = <T = Omit<IPortfolio, "Coins">[]>(
         setIsLoading(false);
       }
     },
-    [JSON.stringify(searchData)]
+    [JSON.stringify(searchData), toggle]
   );
 
   useEffect(() => {
@@ -61,6 +63,7 @@ const usePortfolio = <T = Omit<IPortfolio, "Coins">[]>(
   return {
     data: (portId ? portData : ports) as T,
     isLoading,
+    reload: () => setToggle((prev) => !prev),
   };
 };
 

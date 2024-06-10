@@ -10,15 +10,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import usePortfolio from "@/hooks/usePortfolio.hook";
+import { usePortfolioModal } from "@/store/useAddPortfolioModal";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import AddPortfolioDialog from "./AddPortfolioDialog";
-import { usePortfolioModal } from "@/store/useAddPortfolioModal";
+
 const Portfolio = () => {
-  const { data: portfolioList, isLoading } = usePortfolio();
+  const { data: portfolioList, isLoading, reload } = usePortfolio();
   const { portId } = useParams();
   const [mounted, setMounted] = useState(false);
   const { onOpen } = usePortfolioModal();
@@ -65,43 +66,9 @@ const Portfolio = () => {
               <FaPlus /> Add Portfolio
             </Button>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="hover:bg-gray-400 text-white"
-            >
-              <FaPlus className="text-white" />
-              <span className="ml-2">Add coin</span>
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="text-white hover:bg-gray-400"
-                >
-                  <FaEllipsisV className="text-white" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>
-                  <div className="flex items-center gap-1">
-                    <MdOutlineEdit /> Change name
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <div className="flex items-center gap-1">
-                    <MdDeleteOutline /> Clear Transaction
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
         </div>
       </div>
-      <AddPortfolioDialog />
+      <AddPortfolioDialog onAdded={reload} />
     </div>
   );
 };

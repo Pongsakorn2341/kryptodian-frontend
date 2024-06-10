@@ -1,6 +1,15 @@
 "use client";
 
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -14,6 +23,7 @@ import { IPortfolio } from "@/types/portfolio/portfolio";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
+import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import Portfolio from "./Portfolio";
 
 const CoinTable = () => {
@@ -31,21 +41,87 @@ const CoinTable = () => {
   if (!mounted) {
     return null;
   }
-
+  const tableColumns = [
+    {
+      title: "#",
+      className: "w-12 text-gray-400",
+    },
+    {
+      title: "Coin",
+      className: "text-gray-400 w-fit",
+    },
+    {
+      title: "Price",
+      className: "text-right text-gray-400 min-w-[60px] overflow-x-scroll",
+    },
+    {
+      title: "24h",
+      className: "text-right text-gray-400",
+    },
+    {
+      title: "Market Cap",
+      className: "text-right text-gray-400",
+    },
+    {
+      title: "Actions",
+      className: "w-12 text-gray-400",
+    },
+  ];
   return (
     <div className="bg-primary_dark rounded-md">
       <Portfolio />
+      <div className="flex justify-between my-4">
+        <div>
+          <h1 className="text-3xl md:text-2xl sm:text-1xl text-white text-bold">
+            {portData?.name}
+          </h1>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            size="sm"
+            variant="ghost"
+            className="hover:bg-gray-400 text-white"
+          >
+            <FaPlus className="text-white" />
+            <span className="ml-2">Add coin</span>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-white hover:bg-gray-400"
+              >
+                <FaEllipsisV className="text-white" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>
+                <div className="flex items-center gap-1">
+                  <MdOutlineEdit /> Change name
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <div className="flex items-center gap-1">
+                  <MdDeleteOutline /> Clear Transaction
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
       <Table className="text-white">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-12 text-gray-400">#</TableHead>
-            <TableHead className="text-gray-400">Coin</TableHead>
-            <TableHead className="text-right text-gray-400">Price</TableHead>
-            <TableHead className="text-right text-gray-400">24h</TableHead>
-            <TableHead className="text-right text-gray-400">
-              Market Cap
-            </TableHead>
-            <TableHead className="w-12 text-gray-400">Actions</TableHead>
+            {tableColumns.map((columnData) => (
+              <TableHead
+                key={columnData.title}
+                className={columnData.className}
+              >
+                {columnData.title}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -53,6 +129,7 @@ const CoinTable = () => {
             const coinId = coinData?.coinData?.attributes?.coingecko_coin_id;
             const priceChange = coinData?.priceChange?.[coinId];
             const totalChange = priceChange?.btc_24h_change;
+            const isProfit = totalChange >= 0;
             return (
               <TableRow key={coinData.id}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
@@ -62,16 +139,16 @@ const CoinTable = () => {
                     <span>{coinData.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium">
+                <TableCell className="text-right font-medium w-fit">
                   {priceChange.btc.toFixed(20).replace(/\.?0+$/, "")} BTC
                 </TableCell>
-                {totalChange >= 0 ? (
-                  <TableCell className="text-right text-green-500">
-                    &#8593; {totalChange.toFixed(2)}
+                {isProfit ? (
+                  <TableCell className={`text-right text-green-500`}>
+                    &#8593; {totalChange.toFixed(2)} %
                   </TableCell>
                 ) : (
                   <TableCell className="text-right text-red-500">
-                    &#8595; {totalChange.toFixed(2)}
+                    &#8595; {totalChange.toFixed(2)} %
                   </TableCell>
                 )}
 
@@ -102,6 +179,26 @@ const CoinTable = () => {
               </TableRow>
             );
           })}
+          {(portData?.Coins ?? []).length == 0 && !isLoading ? (
+            <TableRow>
+              <TableCell
+                className="text-center py-4 "
+                colSpan={tableColumns.length}
+              >
+                No data
+              </TableCell>
+            </TableRow>
+          ) : null}
+          {(portData?.Coins ?? []).length == 0 && isLoading ? (
+            <TableRow>
+              <TableCell
+                className="text-center py-4 w-full"
+                colSpan={tableColumns.length}
+              >
+                <LoadingSpinner className="text-center w-full" />
+              </TableCell>
+            </TableRow>
+          ) : null}
         </TableBody>
       </Table>
     </div>

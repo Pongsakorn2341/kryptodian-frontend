@@ -21,8 +21,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <NextAuthProvider>
           <ToasterProvider />
+          {children}
         </NextAuthProvider>
-        {children}
       </body>
     </html>
   );
