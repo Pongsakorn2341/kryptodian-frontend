@@ -1,5 +1,3 @@
-"use client";
-
 import CoinTable from "@/components/dashboard/portfolio/CoinTable";
 
 const page = () => {

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,13 +11,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import usePortfolio from "@/hooks/usePortfolio.hook";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaCog, FaEllipsisV, FaPlus, FaShareAlt } from "react-icons/fa";
 
 const CoinTable = () => {
   const params = useParams<{ portId: string }>();
   const portData = usePortfolio({ portId: params.portId });
-  console.log("🚀 ~ CoinTable ~ portData:", portData);
+  if (!portData) {
+    notFound();
+  }
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="bg-primary_dark rounded-md">

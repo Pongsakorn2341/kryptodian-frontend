@@ -7,10 +7,11 @@ type usePortfolioProps = {
   portId: string;
 };
 
-const usePortfolio = <T = IPortfolio[]>({ portId }: usePortfolioProps) => {
+const usePortfolio = <T = IPortfolio[]>(searchData?: usePortfolioProps) => {
   const [ports, setPorts] = useState<IPortfolio[]>([]);
   const [portData, setPortData] = useState<IPortfolio | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const portId = searchData?.portId;
   const fetchPortfolio = useCallback(
     async (signal: AbortSignal) => {
       try {
@@ -41,7 +42,7 @@ const usePortfolio = <T = IPortfolio[]>({ portId }: usePortfolioProps) => {
         setIsLoading(false);
       }
     },
-    [portId]
+    [JSON.stringify(searchData)]
   );
 
   useEffect(() => {
