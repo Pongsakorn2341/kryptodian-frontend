@@ -1,9 +1,11 @@
+import DashboardPage from "@/components/dashboard/Dashboard";
 import Navbar from "@/components/layout/Navbar";
 
 const Dashboard = () => {
   return (
-    <div className="flex items-center justify-center">
+    <div>
       <Navbar />
+      <DashboardPage />
     </div>
   );
 };

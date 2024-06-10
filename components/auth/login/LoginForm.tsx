@@ -31,6 +31,7 @@ export default function LoginForm() {
       });
       if (res?.ok) {
         toast.success(`Yess`);
+        router.push(`/dashboard`);
       } else if (res?.error) {
         throw new Error(res?.error);
       }
