@@ -1,6 +1,6 @@
 "use client";
 
-import { addCoin } from "@/action/portfolio/portfolios";
+import { addCoin } from "@/action/coin/coin.action";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,12 +15,12 @@ import { handleError } from "@/lib/helper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter as useRouterNavigation } from "next/navigation";
 
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { useAddCoinModal } from "@/store/useAddCoinModal";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { useState } from "react";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 const schema = z.object({
   network_name: z.string().min(1, { message: `Network is required` }),
