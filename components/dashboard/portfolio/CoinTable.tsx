@@ -28,6 +28,7 @@ import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import Portfolio from "./Portfolio";
 import AddCoinDialog from "./dialog/AddCoinDialog";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
+import CoinOptionDropdown from "./CoinOptionDropdown";
 
 type CoinTableProps = {
   portfolioList: IPortfolio[];
@@ -191,13 +192,10 @@ const CoinTable = ({
                     >
                       <FaPlus className="text-white" />
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="rounded-full text-white"
-                    >
-                      <FaEllipsisV className="text-white" />
-                    </Button>
+                    <CoinOptionDropdown
+                      portfolioId={portData.id}
+                      coinId={coinData.id}
+                    />
                   </div>
                 </TableCell>
               </TableRow>
