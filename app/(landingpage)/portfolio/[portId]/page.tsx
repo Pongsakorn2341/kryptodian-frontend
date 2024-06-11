@@ -1,9 +1,25 @@
 import CoinTable from "@/components/dashboard/portfolio/CoinTable";
+import {
+  getPortfolioData,
+  getPortfolios,
+} from "@/server/portfolio/get-pofolios";
+import { notFound } from "next/navigation";
 
-const page = () => {
+const page = async (req: { params: { portId: string } }) => {
+  const portId = req?.params?.portId;
+
+  const portfolioList = await getPortfolios();
+  if (!portfolioList || !Array.isArray(portfolioList)) {
+    notFound();
+  }
+  const portfolioData = await getPortfolioData(portId);
+  if (!portfolioData) {
+    notFound();
+  }
+
   return (
     <div>
-      <CoinTable />
+      <CoinTable portfolioList={portfolioList} portfolioData={portfolioData} />
     </div>
   );
 };

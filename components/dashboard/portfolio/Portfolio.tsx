@@ -1,25 +1,19 @@
 "use client";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import usePortfolio from "@/hooks/usePortfolio.hook";
 import { usePortfolioModal } from "@/store/useAddPortfolioModal";
+import { IPortfolio } from "@/types/portfolio/portfolio";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaEllipsisV, FaPlus } from "react-icons/fa";
-import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
+import { FaPlus } from "react-icons/fa";
 import AddPortfolioDialog from "./AddPortfolioDialog";
 
-const Portfolio = () => {
-  const { data: portfolioList, isLoading, reload } = usePortfolio();
+type PortfolioProps = {
+  portfolioList: IPortfolio[];
+};
+
+const Portfolio = ({ portfolioList }: PortfolioProps) => {
+  // const { data: portfolioList, isLoading, reload } = usePortfolio();
   const { portId } = useParams();
   const [mounted, setMounted] = useState(false);
   const { onOpen } = usePortfolioModal();
@@ -41,11 +35,11 @@ const Portfolio = () => {
             >
               Overview
             </Link>
-            {isLoading ? (
+            {/* {isLoading ? (
               <Link href="#" className="px-4 py-2 font-semibold rounded-md">
                 <LoadingSpinner className="text-white" />
               </Link>
-            ) : null}
+            ) : null} */}
             {portfolioList.map((portData) => (
               <Link
                 key={portData.id}
@@ -68,7 +62,7 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
-      <AddPortfolioDialog onAdded={reload} />
+      <AddPortfolioDialog onAdded={() => {}} />
     </div>
   );
 };

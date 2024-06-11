@@ -30,8 +30,8 @@ export default function LoginForm() {
         redirect: false,
       });
       if (res?.ok) {
-        toast.success(`Yess`);
-        router.push(`/dashboard`);
+        toast.success(`Sign in successfully`);
+        router.push(`/portfolio`);
       } else if (res?.error) {
         throw new Error(res?.error);
       }
@@ -48,47 +48,69 @@ export default function LoginForm() {
 
   return (
     <form
-      className="space-y-6 w-full"
+      className="space-y-6 w-full p-6 sm:p-10 sm:border-0 rounded-lg shadow-lg border border-indigo-200 bg-white"
       onSubmit={form.handleSubmit(handleSubmit)}
     >
-      <h1>Login</h1>
-      <div>
-        <Label htmlFor="email">Email</Label>
+      <h1 className="text-2xl sm:text-4xl font-bold text-center sm:text-left text-indigo-600">
+        Login
+      </h1>
+
+      <div className="flex flex-col gap-2">
+        <Label
+          htmlFor="email"
+          className="text-sm sm:text-base font-medium text-indigo-800"
+        >
+          Email
+        </Label>
         <Input
           id="email"
           type="email"
           {...form.register("email")}
-          className="text-gray-500"
+          className="text-gray-700 px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.email && (
-          <span className="text-red-500">{errors.email.message}</span>
+          <span className="text-red-500 text-sm sm:text-base">
+            {errors.email.message}
+          </span>
         )}
       </div>
-      <div>
-        <Label htmlFor="password">Password</Label>
+
+      <div className="flex flex-col gap-2">
+        <Label
+          htmlFor="password"
+          className="text-sm sm:text-base font-medium text-indigo-800"
+        >
+          Password
+        </Label>
         <Input
           id="password"
           type="password"
           {...form.register("password")}
-          className="text-gray-500"
+          className="text-gray-700 px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.password && (
-          <span className="text-red-500 text-sm">
+          <span className="text-red-500 text-sm sm:text-base">
             {errors.password.message}
           </span>
         )}
       </div>
-      <div className="flex justify-between">
+
+      <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
         <Button
           type="button"
-          variant={"link"}
+          variant="link"
           onClick={() => router.push(`/auth/sign-up`)}
           disabled={isLoading}
+          className="text-sm sm:text-base text-indigo-600 hover:underline"
         >
           Don&apos;t have an account?
         </Button>
 
-        <Button type="submit" disabled={isLoading}>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="text-sm sm:text-base px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
           {isLoading ? <LoadingSpinner /> : `Login`}
         </Button>
       </div>

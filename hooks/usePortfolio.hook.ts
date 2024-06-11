@@ -52,7 +52,6 @@ const usePortfolio = <T = Omit<IPortfolio, "Coins">[]>(
   );
 
   useEffect(() => {
-    console.log(`trigger`);
     const controller = new AbortController();
     fetchPortfolio(controller.signal);
     return () => {

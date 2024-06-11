@@ -26,11 +26,19 @@ import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import Portfolio from "./Portfolio";
 
-const CoinTable = () => {
+type CoinTableProps = {
+  portfolioList: IPortfolio[];
+  portfolioData: IPortfolio;
+};
+
+const CoinTable = ({
+  portfolioList,
+  portfolioData: portData,
+}: CoinTableProps) => {
   const params = useParams<{ portId: string }>();
-  const { data: portData, isLoading } = usePortfolio<IPortfolio>({
-    portId: params.portId,
-  });
+  // const { data: portData, isLoading } = usePortfolio<IPortfolio>({
+  //   portId: params.portId,
+  // });
 
   const [mounted, setMounted] = useState(false);
 
@@ -69,7 +77,7 @@ const CoinTable = () => {
   ];
   return (
     <div className="bg-primary_dark rounded-md">
-      <Portfolio />
+      <Portfolio portfolioList={portfolioList} />
       <div className="flex justify-between my-4">
         <div>
           <h1 className="text-3xl md:text-2xl sm:text-1xl text-white text-bold">
@@ -179,23 +187,13 @@ const CoinTable = () => {
               </TableRow>
             );
           })}
-          {(portData?.Coins ?? []).length == 0 && !isLoading ? (
+          {(portData?.Coins ?? []).length == 0 ? (
             <TableRow>
               <TableCell
                 className="text-center py-4 "
                 colSpan={tableColumns.length}
               >
                 No data
-              </TableCell>
-            </TableRow>
-          ) : null}
-          {(portData?.Coins ?? []).length == 0 && isLoading ? (
-            <TableRow>
-              <TableCell
-                className="text-center py-4 w-full"
-                colSpan={tableColumns.length}
-              >
-                <LoadingSpinner className="text-center w-full" />
               </TableCell>
             </TableRow>
           ) : null}
