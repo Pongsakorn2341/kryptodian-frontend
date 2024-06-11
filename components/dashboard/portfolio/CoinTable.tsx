@@ -1,5 +1,6 @@
 "use client";
 
+import { deletePortfolio } from "@/action/portfolio/pofolios";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,16 +17,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { handleError } from "@/lib/helper";
+import { useAddCoinModal } from "@/store/useAddCoinModal";
 import { IPortfolio } from "@/types/portfolio/portfolio";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import Portfolio from "./Portfolio";
+import AddCoinDialog from "./dialog/AddCoinDialog";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
-import { deletePortfolio } from "@/action/portfolio/pofolios";
-import { useRouter } from "next/navigation";
-import { handleError } from "@/lib/helper";
-import toast from "react-hot-toast";
 
 type CoinTableProps = {
   portfolioList: IPortfolio[];
@@ -65,6 +67,7 @@ const CoinTable = ({
 }: CoinTableProps) => {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+  const { onOpen } = useAddCoinModal();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -87,6 +90,7 @@ const CoinTable = ({
             size="sm"
             variant="ghost"
             className="hover:bg-gray-400 text-white"
+            onClick={onOpen}
           >
             <FaPlus className="text-white" />
             <span className="ml-2">Add coin</span>
@@ -150,6 +154,7 @@ const CoinTable = ({
             const priceChange = coinData?.priceChange?.[coinId];
             const totalChange = priceChange?.btc_24h_change;
             const isProfit = totalChange >= 0;
+            const marketCap = coinData?.coinData?.attributes?.market_cap_usd;
             return (
               <TableRow key={coinData.id}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
@@ -173,10 +178,9 @@ const CoinTable = ({
                 )}
 
                 <TableCell className="text-right">
-                  $
-                  {parseFloat(
-                    coinData?.coinData?.attributes?.market_cap_usd
-                  ).toLocaleString("en")}
+                  {marketCap
+                    ? `$${parseFloat(marketCap).toLocaleString("en")}`
+                    : `-`}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end space-x-2">
@@ -211,6 +215,7 @@ const CoinTable = ({
           ) : null}
         </TableBody>
       </Table>
+      <AddCoinDialog portId={portData.id} />
     </div>
   );
 };

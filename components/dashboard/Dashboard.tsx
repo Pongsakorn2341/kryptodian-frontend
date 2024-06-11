@@ -3,8 +3,13 @@
 import Link from "next/link";
 import TypewriterComponent from "typewriter-effect";
 import { Button } from "../ui/button";
+import { useSession } from "next-auth/react";
 
 const DashboardPage = () => {
+  const session = useSession();
+
+  // TODO : check is valid session ?
+
   return (
     <div className="text-white font-bold py-36 text-center space-y-5">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">

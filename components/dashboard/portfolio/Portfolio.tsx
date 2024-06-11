@@ -35,11 +35,6 @@ const Portfolio = ({ portfolioList }: PortfolioProps) => {
             >
               Overview
             </Link>
-            {/* {isLoading ? (
-              <Link href="#" className="px-4 py-2 font-semibold rounded-md">
-                <LoadingSpinner className="text-white" />
-              </Link>
-            ) : null} */}
             {portfolioList.map((portData) => (
               <Link
                 key={portData.id}
