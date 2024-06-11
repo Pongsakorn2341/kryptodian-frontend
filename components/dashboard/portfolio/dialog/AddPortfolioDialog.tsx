@@ -25,11 +25,9 @@ const schema = z.object({
 });
 type ISchema = z.infer<typeof schema>;
 
-type AddPortfolioDialogProps = {
-  onAdded: () => void;
-};
+type AddPortfolioDialogProps = {};
 
-const AddPortfolioDialog = ({ onAdded }: AddPortfolioDialogProps) => {
+const AddPortfolioDialog = ({}: AddPortfolioDialogProps) => {
   const { isOpen, onClose } = usePortfolioModal();
   const router = useRouter();
   const form = useForm<ISchema>({
@@ -50,7 +48,6 @@ const AddPortfolioDialog = ({ onAdded }: AddPortfolioDialogProps) => {
       if (response) {
         toast.success(`Portfolio ${data.name} is added.`);
         router.refresh();
-        onAdded();
         onCloseModal();
       }
     } catch (e) {

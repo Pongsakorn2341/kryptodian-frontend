@@ -165,7 +165,7 @@ const CoinTable = ({
                     <span>{coinData.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium w-fit">
+                <TableCell className="text-right whitespace-nowrap overflow-y-scroll min-w-[100px] text-ellipsis font-medium w-full">
                   {priceChange.btc.toFixed(20).replace(/\.?0+$/, "")} BTC
                 </TableCell>
                 {isProfit ? (
@@ -204,7 +204,7 @@ const CoinTable = ({
           {(portData?.Coins ?? []).length == 0 ? (
             <TableRow>
               <TableCell
-                className="text-center py-4 "
+                className="text-center py-8 sm:py-6"
                 colSpan={tableColumns.length}
               >
                 No data

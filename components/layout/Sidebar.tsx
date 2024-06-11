@@ -16,6 +16,11 @@ import {
 import { usePathname } from "next/navigation";
 import usePortfolio from "@/hooks/usePortfolio.hook";
 import { IPortfolio } from "@/types/portfolio/portfolio";
+import { Button } from "../ui/button";
+import { FaPlus } from "react-icons/fa";
+import { usePortfolioModal } from "@/store/useAddPortfolioModal";
+import AddPortfolioDialog from "../dashboard/portfolio/dialog/AddPortfolioDialog";
+import { MdDeleteOutline } from "react-icons/md";
 
 const montserrant = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -69,6 +74,7 @@ type SidebarProps = {
 
 const Sidebar = ({ portfolioList }: SidebarProps) => {
   const pathname = usePathname();
+  const { onOpen } = usePortfolioModal();
 
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-secondary_dark text-white">
@@ -84,6 +90,16 @@ const Sidebar = ({ portfolioList }: SidebarProps) => {
             Kryptodian
           </h1>
         </Link>
+        <div>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="hover:bg-gray-200 gap-1 px-4 py-2 mb-4 text-white"
+            onClick={onOpen}
+          >
+            <FaPlus /> Add Portfolio
+          </Button>
+        </div>
         <div className="space-y-1">
           {portfolioList.map((route) => (
             <Link
@@ -96,11 +112,18 @@ const Sidebar = ({ portfolioList }: SidebarProps) => {
                   : "text-zinc-400"
               )}
             >
-              <div className="flex items-center flex-1">{route.name}</div>
+              <div className="flex items-center justify-between flex-1">
+                {route.name}
+                {/* <MdDeleteOutline
+                  size={20}
+                  className="hover:bg-zinc-400 hover:p-2 hover:rounded hover:text-red"
+                /> */}
+              </div>
             </Link>
           ))}
         </div>
       </div>
+      <AddPortfolioDialog />
     </div>
   );
 };

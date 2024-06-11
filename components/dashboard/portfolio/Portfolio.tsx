@@ -57,7 +57,7 @@ const Portfolio = ({ portfolioList }: PortfolioProps) => {
           </div>
         </div>
       </div>
-      <AddPortfolioDialog onAdded={() => {}} />
+      <AddPortfolioDialog />
     </div>
   );
 };
