@@ -19,6 +19,5 @@ export const getNetworks = async () => {
   const res = result?.filter(
     (item) => item?.attributes?.coingecko_asset_platform_id
   );
-  console.log(res);
   return res;
 };

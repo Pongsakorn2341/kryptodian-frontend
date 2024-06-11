@@ -42,7 +42,6 @@ const usePortfolio = <T = Omit<IPortfolio, "Coins">[]>(
           setPorts(response?.data ?? []);
         }
       } catch (e) {
-        console.log(e);
         handleError(e, true);
       } finally {
         setIsLoading(false);

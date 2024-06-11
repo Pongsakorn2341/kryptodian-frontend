@@ -7,7 +7,6 @@ import { getAccessToken } from "../session/handle-fetch";
 
 export const getPortfolios = async (): Promise<IPortfolio[] | undefined> => {
   const accessToken = await getAccessToken();
-  console.log("🚀 ~ getPortfolios ~ accessToken:", accessToken);
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append("Authorization", `Bearer ${accessToken}`);
@@ -18,7 +17,6 @@ export const getPortfolios = async (): Promise<IPortfolio[] | undefined> => {
     }
   );
   const result = await response.json();
-  console.log("🚀 ~ getPortfolios ~ result:", result);
   return result;
 };
 

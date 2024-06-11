@@ -47,41 +47,59 @@ export default function RegisterForm() {
 
   return (
     <form
-      className="space-y-6 w-full"
+      className="space-y-6 w-full p-6 sm:p-10 sm:border-0 rounded-lg shadow-lg border border-indigo-200 bg-white"
       onSubmit={form.handleSubmit(handleSubmit)}
     >
-      <h1>Registeration</h1>
-      <div>
-        <Label htmlFor="name">Name</Label>
+      <h1 className="text-2xl sm:text-4xl font-bold text-center sm:text-left text-indigo-600">
+        Registeration
+      </h1>
+
+      <div className="flex flex-col gap-2">
+        <Label
+          htmlFor="name"
+          className="text-sm sm:text-base font-medium text-indigo-800"
+        >
+          Name
+        </Label>
         <Input
           id="name"
           type="text"
           {...form.register("name")}
-          className="text-gray-500"
+          className="text-gray-700 px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.name && (
           <span className="text-red-500">{errors.name.message}</span>
         )}
       </div>
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label
+          htmlFor="email"
+          className="text-sm sm:text-base font-medium text-indigo-800"
+        >
+          Email
+        </Label>
         <Input
           id="email"
           type="email"
           {...form.register("email")}
-          className="text-gray-500"
+          className="text-gray-700 px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.email && (
           <span className="text-red-500">{errors.email.message}</span>
         )}
       </div>
       <div>
-        <Label htmlFor="password">Password</Label>
+        <Label
+          htmlFor="password"
+          className="text-sm sm:text-base font-medium text-indigo-800"
+        >
+          Password
+        </Label>
         <Input
           id="password"
           type="password"
           {...form.register("password")}
-          className="text-gray-500"
+          className="text-gray-700 px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.password && (
           <span className="text-red-500 text-sm">
@@ -90,12 +108,17 @@ export default function RegisterForm() {
         )}
       </div>
       <div>
-        <Label htmlFor="confirm-password">Confirm Password</Label>
+        <Label
+          htmlFor="confirm-password"
+          className="text-sm sm:text-base font-medium text-indigo-800"
+        >
+          Confirm Password
+        </Label>
         <Input
           id="confirm-password"
           type="password"
           {...form.register("confirm_password")}
-          className="text-gray-500"
+          className="text-gray-700 px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.confirm_password && (
           <span className="text-red-500 text-sm">
@@ -103,12 +126,13 @@ export default function RegisterForm() {
           </span>
         )}
       </div>
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
         <Button
           type="button"
           variant={"link"}
           onClick={() => router.push(`/auth/login`)}
           disabled={isLoading}
+          className="text-sm sm:text-base text-indigo-600 hover:underline"
         >
           Login
         </Button>

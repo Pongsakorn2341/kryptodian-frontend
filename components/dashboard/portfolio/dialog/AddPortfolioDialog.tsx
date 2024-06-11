@@ -53,7 +53,6 @@ const AddPortfolioDialog = ({}: AddPortfolioDialogProps) => {
     } catch (e) {
       handleError(e, true);
     }
-    console.log("🚀 ~ AddPortfolioDialog ~ data:", data);
   };
 
   return (

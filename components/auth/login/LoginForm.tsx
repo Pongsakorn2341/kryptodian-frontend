@@ -38,7 +38,6 @@ export default function LoginForm() {
       }
     } catch (e) {
       const _msg = handleError(e);
-      console.log("🚀 ~ handleSubmit ~ _msg:", _msg);
       toast.error(_msg.message);
     } finally {
       setTimeout(() => {

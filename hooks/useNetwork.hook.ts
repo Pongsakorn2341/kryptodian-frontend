@@ -18,12 +18,10 @@ const useNetwork = <T = INetwork[]>() => {
           method: "GET",
           signal,
         });
-        console.log(response);
 
         if (response.status == "failed") return;
         setNetworks(response?.data ?? []);
       } catch (e) {
-        console.log(e);
         handleError(e, true);
       } finally {
         setIsLoading(false);

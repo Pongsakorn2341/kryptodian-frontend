@@ -60,7 +60,6 @@ export const authOptions: NextAuthOptions = {
             isThrowError: true,
             body: payload,
           });
-          console.log(`RESPONSE : `, response);
           if (response.status === "success") {
             const result = response.data;
             return {
@@ -71,7 +70,6 @@ export const authOptions: NextAuthOptions = {
           }
         } catch (e) {
           const _err = handleError(e, false);
-          console.log("🚀 ~ authorize ~ _err:", _err);
           throw new Error(_err.message);
         }
         return null;
@@ -83,9 +81,7 @@ export const authOptions: NextAuthOptions = {
   },
   debug: true,
   events: {
-    signOut: () => {
-      console.log("-- sign out --");
-    },
+    signOut: () => {},
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
