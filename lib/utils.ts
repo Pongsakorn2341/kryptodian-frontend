@@ -144,7 +144,6 @@ export const handleFetchBackend = async <T>({
       data: result as T,
     };
   } catch (e) {
-    console.log(`ERROR ----`);
     const _err = handleError(e);
     if (isThrowError && !_err.isAbort) {
       throw _err.message;

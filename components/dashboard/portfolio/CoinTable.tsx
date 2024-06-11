@@ -25,14 +25,14 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
-import Portfolio from "./Portfolio";
+import CoinOptionDropdown from "./CoinOptionDropdown";
 import AddCoinDialog from "./dialog/AddCoinDialog";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
-import CoinOptionDropdown from "./CoinOptionDropdown";
+import { INetwork } from "@/types/network/network";
 
 type CoinTableProps = {
-  portfolioList: IPortfolio[];
   portfolioData: IPortfolio;
+  networks: INetwork[];
 };
 
 const tableColumns = [
@@ -62,10 +62,7 @@ const tableColumns = [
   },
 ];
 
-const CoinTable = ({
-  portfolioList,
-  portfolioData: portData,
-}: CoinTableProps) => {
+const CoinTable = ({ portfolioData: portData, networks }: CoinTableProps) => {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { onOpen } = useAddCoinModal();
@@ -79,7 +76,6 @@ const CoinTable = ({
 
   return (
     <div className="bg-primary_dark rounded-md">
-      {/* <Portfolio portfolioList={portfolioList} /> */}
       <div className="flex justify-between my-4">
         <div>
           <h1 className="text-3xl md:text-2xl sm:text-1xl text-white text-bold">
@@ -136,8 +132,8 @@ const CoinTable = ({
           </DropdownMenu>
         </div>
       </div>
-      <Table className="text-white">
-        <TableHeader>
+      <Table className="text-white ">
+        <TableHeader className="whitespace-nowrap">
           <TableRow>
             {tableColumns.map((columnData) => (
               <TableHead
@@ -153,9 +149,12 @@ const CoinTable = ({
           {(portData?.Coins ?? []).map((coinData, idx) => {
             const coinId = coinData?.coinData?.attributes?.coingecko_coin_id;
             const priceChange = coinData?.priceChange?.[coinId];
-            const totalChange = priceChange?.btc_24h_change;
+            const totalChange = priceChange?.btc_24h_change ?? 0;
             const isProfit = totalChange >= 0;
             const marketCap = coinData?.coinData?.attributes?.market_cap_usd;
+            const btnPrice = (priceChange?.btc ?? 0)
+              .toFixed(20)
+              .replace(/\.?0+$/, "");
             return (
               <TableRow key={coinData.id}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
@@ -165,15 +164,17 @@ const CoinTable = ({
                     <span>{coinData.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-right whitespace-nowrap overflow-y-scroll min-w-[100px] text-ellipsis font-medium w-full">
-                  {priceChange.btc.toFixed(20).replace(/\.?0+$/, "")} BTC
+                <TableCell className="text-right whitespace-nowrap overflow-y-scroll  text-ellipsis font-medium w-full">
+                  {btnPrice} BTC
                 </TableCell>
                 {isProfit ? (
-                  <TableCell className={`text-right text-green-500`}>
+                  <TableCell
+                    className={`text-right whitespace-nowrap text-green-500`}
+                  >
                     &#8593; {totalChange.toFixed(2)} %
                   </TableCell>
                 ) : (
-                  <TableCell className="text-right whitespace-nowrap w-fit text-red-500">
+                  <TableCell className="text-right whitespace-nowrap text-red-500">
                     &#8595; {totalChange.toFixed(2)} %
                   </TableCell>
                 )}
@@ -213,7 +214,7 @@ const CoinTable = ({
           ) : null}
         </TableBody>
       </Table>
-      <AddCoinDialog portId={portData.id} />
+      <AddCoinDialog portId={portData.id} networks={networks} />
     </div>
   );
 };
