@@ -1,12 +1,20 @@
+import { getPortfolios } from "@/action/portfolio/portfolios";
+import Navbar from "@/components/layout/Navbar";
+import Sidebar from "@/components/layout/Sidebar";
 import React, { ReactNode } from "react";
 
-const layout = ({ children }: { children: ReactNode }) => {
+const layout = async ({ children }: { children: ReactNode }) => {
+  const portfolios = await getPortfolios();
   return (
-    <div className="container text-center py-10">
-      <div className="text-white text-4xl sm:text-4xl md:text-5xl lg:text-6xl space-y-5 py-4 font-extrabold">
-        <h1>Portfolios</h1>
+    <div className="h-full relative">
+      <div className="hidden h-full md:flex md:w-72  md:flex-col md:fixed md:inset-y-0 bg-gray-900">
+        <Sidebar portfolioList={portfolios ?? []} />
       </div>
-      {children}
+      <main className="md:pl-72">
+        <Navbar />
+        <div className="container">{children}</div>
+      </main>
+      {/* <div className="container"></div> */}
     </div>
   );
 };

@@ -50,7 +50,7 @@ const tableColumns = [
   },
   {
     title: "24h",
-    className: "text-right text-gray-400",
+    className: "text-right text-gray-400 w-fit",
   },
   {
     title: "Market Cap",
@@ -79,7 +79,7 @@ const CoinTable = ({
 
   return (
     <div className="bg-primary_dark rounded-md">
-      <Portfolio portfolioList={portfolioList} />
+      {/* <Portfolio portfolioList={portfolioList} /> */}
       <div className="flex justify-between my-4">
         <div>
           <h1 className="text-3xl md:text-2xl sm:text-1xl text-white text-bold">
@@ -173,7 +173,7 @@ const CoinTable = ({
                     &#8593; {totalChange.toFixed(2)} %
                   </TableCell>
                 ) : (
-                  <TableCell className="text-right text-red-500">
+                  <TableCell className="text-right whitespace-nowrap w-fit text-red-500">
                     &#8595; {totalChange.toFixed(2)} %
                   </TableCell>
                 )}

@@ -59,12 +59,15 @@ const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
         address: data.address,
         portfolioId: portId,
       });
-      if (response) {
+
+      if (response.id) {
         form.reset();
         form.clearErrors();
         toast.success(`Add coin successfully`);
         navigation.refresh();
         onCloseModal();
+      } else {
+        throw new Error(response?.cause);
       }
     } catch (e) {
       handleError(e, true);

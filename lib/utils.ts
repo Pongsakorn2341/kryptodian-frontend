@@ -92,13 +92,13 @@ export const handleFetchBackend = async <T>({
   "use client";
   try {
     const accessToken = await getAccessToken();
+    console.log("🚀 ~ accessToken:", accessToken);
     const queryString = new URLSearchParams(
       removeUndefinedValues(query)
     ).toString();
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}${path}${
       queryString && queryString.length >= 1 ? "?" + queryString : ""
     }`;
-    console.log("🚀 ~ url:", url);
     const headers = new Headers();
     if (formData == undefined) {
       headers.append("Content-Type", "application/json");

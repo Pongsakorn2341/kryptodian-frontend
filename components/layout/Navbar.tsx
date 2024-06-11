@@ -1,13 +1,13 @@
-"use client";
-import { Button } from "../ui/button";
-import { signOut } from "next-auth/react";
+import { getPortfolios } from "@/action/portfolio/portfolios";
+import MobileSidebar from "./MobileSidebar";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const portfolioList = await getPortfolios();
+
   return (
-    <div className="flex justify-end w-full m-3">
-      <Button type="button" variant={"destructive"} onClick={() => signOut()}>
-        Sign Out
-      </Button>
+    <div className="flex items-center p-4">
+      <MobileSidebar portfolioList={portfolioList ?? []} />
+      <div className="flex w-full justify-end"></div>
     </div>
   );
 };
