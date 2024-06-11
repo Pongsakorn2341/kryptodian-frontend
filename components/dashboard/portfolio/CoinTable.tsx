@@ -1,6 +1,5 @@
 "use client";
 
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import usePortfolio from "@/hooks/usePortfolio.hook";
 import { IPortfolio } from "@/types/portfolio/portfolio";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";

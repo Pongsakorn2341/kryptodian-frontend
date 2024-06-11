@@ -14,6 +14,7 @@ import { handleError } from "@/lib/helper";
 import { handleFetchBackend } from "@/lib/utils";
 import { usePortfolioModal } from "@/store/useAddPortfolioModal";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -29,7 +30,7 @@ type AddPortfolioDialogProps = {
 
 const AddPortfolioDialog = ({ onAdded }: AddPortfolioDialogProps) => {
   const { isOpen, onClose } = usePortfolioModal();
-
+  const router = useRouter();
   const form = useForm<ISchema>({
     resolver: zodResolver(schema),
   });
@@ -53,6 +54,7 @@ const AddPortfolioDialog = ({ onAdded }: AddPortfolioDialogProps) => {
       });
       if (response.status == "success") {
         toast.success(`Portfolio ${data.name} is added.`);
+        router.refresh();
         onAdded();
         onCloseModal();
       }
