@@ -1,6 +1,6 @@
 "use client";
 
-import { addCoin } from "@/action/portfolio/pofolios";
+import { addCoin } from "@/action/portfolio/portfolios";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

@@ -1,5 +1,6 @@
 "use client";
 
+import { addPortfolio } from "@/action/portfolio/portfolios";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -45,14 +46,8 @@ const AddPortfolioDialog = ({ onAdded }: AddPortfolioDialogProps) => {
 
   const onSubmit = async (data: ISchema) => {
     try {
-      const response = await handleFetchBackend({
-        path: "/portfolio",
-        method: "POST",
-        body: {
-          name: data.name,
-        },
-      });
-      if (response.status == "success") {
+      const response = await addPortfolio(data.name);
+      if (response) {
         toast.success(`Portfolio ${data.name} is added.`);
         router.refresh();
         onAdded();

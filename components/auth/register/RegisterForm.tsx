@@ -1,9 +1,11 @@
 "use client";
 
+import { registerAccount } from "@/action/auth.action";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { handleError } from "@/lib/helper";
 import { IRegisterSchema, registerSchema } from "@/lib/zod/register.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -19,7 +21,7 @@ export default function RegisterForm() {
   });
   const { errors } = form.formState;
 
-  const handleSubmit = (data: IRegisterSchema) => {
+  const handleSubmit = async (data: IRegisterSchema) => {
     if (data.confirm_password != data.password) {
       return form.setError("confirm_password", {
         message: `Confirm password is mismatch.`,
@@ -27,13 +29,20 @@ export default function RegisterForm() {
     }
     try {
       setIsLoading(true);
+
+      const response = await registerAccount(data);
+      if (response) {
+        toast.success(`Registeration successfully`);
+        form.reset();
+        router.push(`/auth/login`);
+      }
     } catch (e) {
+      handleError(e, true);
     } finally {
       setTimeout(() => {
         setIsLoading((prev) => false);
       }, 2000);
     }
-    toast.success(`Yess`);
   };
 
   return (

@@ -29,6 +29,7 @@ export default function LoginForm() {
         action: "login",
         redirect: false,
       });
+
       if (res?.ok) {
         toast.success(`Sign in successfully`);
         router.push(`/portfolio`);

@@ -1,6 +1,6 @@
 "use client";
 
-import { deletePortfolio } from "@/action/portfolio/pofolios";
+import { deletePortfolio } from "@/action/portfolio/portfolios";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

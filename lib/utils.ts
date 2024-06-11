@@ -7,7 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 
 import dayjs from "dayjs";
 import { getSession, signOut } from "next-auth/react";
-import getConfig from "next/config";
 import { MethodProps, handleError, removeUndefinedValues } from "./helper";
 
 type HandleFetchBackendProps = {
@@ -68,16 +67,16 @@ const getAccessToken = async (): Promise<string | undefined> => {
 };
 
 export const logout = async () => {
-  // Clear the token from localStorage
-  if (typeof localStorage !== "undefined") {
-    window.localStorage.removeItem("accessToken");
-  }
+  // // Clear the token from localStorage
+  // if (typeof localStorage !== "undefined") {
+  //   window.localStorage.removeItem("accessToken");
+  // }
 
-  // Reset the cached token
-  cachedAccessToken = undefined;
-
-  // Perform other logout actions, such as redirecting the user or calling a logout API
-  await signOut({ callbackUrl: "/auth/login" }); //
+  // // Reset the cached token
+  // cachedAccessToken = undefined;
+  console.log(`LOGOUT`);
+  // // Perform other logout actions, such as redirecting the user or calling a logout API
+  // await signOut({ callbackUrl: "/auth/login" }); //
 };
 
 export const handleFetchBackend = async <T>({
@@ -145,6 +144,7 @@ export const handleFetchBackend = async <T>({
       data: result as T,
     };
   } catch (e) {
+    console.log(`ERROR ----`);
     const _err = handleError(e);
     if (isThrowError && !_err.isAbort) {
       throw _err.message;
