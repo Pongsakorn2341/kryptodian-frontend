@@ -19,6 +19,8 @@ import { useAddCoinModal } from "@/store/useAddCoinModal";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { useState } from "react";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 const schema = z.object({
   network_name: z.string().min(1, { message: `Network is required` }),
@@ -32,6 +34,7 @@ type AddCoinDialogProps = {
 
 const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
   const { isOpen, onClose } = useAddCoinModal();
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useRouterNavigation();
   const form = useForm<ISchema>({
     resolver: zodResolver(schema),
@@ -50,6 +53,7 @@ const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
       if (!portId) {
         throw new Error(`Portfolio is not found`);
       }
+      setIsLoading(true);
       const response = await addCoin({
         network: data.network_name,
         address: data.address,
@@ -64,6 +68,8 @@ const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
       }
     } catch (e) {
       handleError(e, true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,7 +83,11 @@ const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
           <div className="w-full">
             <div className="my-3">
               <Label htmlFor="name">Network</Label>
-              <Input id="name" {...form.register("network_name")} />
+              <Input
+                id="name"
+                disabled={isLoading}
+                {...form.register("network_name")}
+              />
               {errors.network_name ? (
                 <span className="text-red-400">
                   {errors.network_name.message}
@@ -86,7 +96,11 @@ const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
             </div>
             <div className="my-3">
               <Label htmlFor="name">Address</Label>
-              <Input id="name" {...form.register("address")} />
+              <Input
+                id="name"
+                disabled={isLoading}
+                {...form.register("address")}
+              />
               {errors.address ? (
                 <span className="text-red-400">{errors.address.message}</span>
               ) : null}
@@ -98,7 +112,7 @@ const AddCoinDialog = ({ portId }: AddCoinDialogProps) => {
               variant={"default"}
               onClick={() => onSubmit(form.getValues())}
             >
-              Add Coin
+              {isLoading ? <LoadingSpinner /> : `Add Coin`}
             </Button>
           </DialogFooter>
         </DialogContent>

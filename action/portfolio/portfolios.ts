@@ -105,11 +105,13 @@ export const addCoin = async ({
       }
     );
     const result = await response.json();
+    console.log("🚀 ~ result:", result);
     if (!response.ok) {
       throw new Error(result?.cause ?? `Something went wrong`);
     }
     return result;
   } catch (e) {
-    handleError(e, true);
+    const _msg = handleError(e, false);
+    throw new Error(_msg.message);
   }
 };
