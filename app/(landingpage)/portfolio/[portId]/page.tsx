@@ -1,8 +1,5 @@
 import CoinTable from "@/components/dashboard/portfolio/CoinTable";
-import {
-  getPortfolioData,
-  getPortfolios,
-} from "@/server/portfolio/get-pofolios";
+import { getPortfolioData, getPortfolios } from "@/action/portfolio/pofolios";
 import { notFound } from "next/navigation";
 
 const page = async (req: { params: { portId: string } }) => {

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -18,28 +17,54 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { IPortfolio } from "@/types/portfolio/portfolio";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import Portfolio from "./Portfolio";
+import ConfirmationDialog from "./dialog/ConfirmationDialog";
+import { deletePortfolio } from "@/action/portfolio/pofolios";
+import { useRouter } from "next/navigation";
+import { handleError } from "@/lib/helper";
+import toast from "react-hot-toast";
 
 type CoinTableProps = {
   portfolioList: IPortfolio[];
   portfolioData: IPortfolio;
 };
 
+const tableColumns = [
+  {
+    title: "#",
+    className: "w-12 text-gray-400",
+  },
+  {
+    title: "Coin",
+    className: "text-gray-400 w-fit",
+  },
+  {
+    title: "Price",
+    className: "text-right text-gray-400 min-w-[60px] overflow-x-scroll",
+  },
+  {
+    title: "24h",
+    className: "text-right text-gray-400",
+  },
+  {
+    title: "Market Cap",
+    className: "text-right text-gray-400",
+  },
+  {
+    title: "Actions",
+    className: "w-12 text-gray-400",
+  },
+];
+
 const CoinTable = ({
   portfolioList,
   portfolioData: portData,
 }: CoinTableProps) => {
-  const params = useParams<{ portId: string }>();
-  // const { data: portData, isLoading } = usePortfolio<IPortfolio>({
-  //   portId: params.portId,
-  // });
-
   const [mounted, setMounted] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -47,32 +72,7 @@ const CoinTable = ({
   if (!mounted) {
     return null;
   }
-  const tableColumns = [
-    {
-      title: "#",
-      className: "w-12 text-gray-400",
-    },
-    {
-      title: "Coin",
-      className: "text-gray-400 w-fit",
-    },
-    {
-      title: "Price",
-      className: "text-right text-gray-400 min-w-[60px] overflow-x-scroll",
-    },
-    {
-      title: "24h",
-      className: "text-right text-gray-400",
-    },
-    {
-      title: "Market Cap",
-      className: "text-right text-gray-400",
-    },
-    {
-      title: "Actions",
-      className: "w-12 text-gray-400",
-    },
-  ];
+
   return (
     <div className="bg-primary_dark rounded-md">
       <Portfolio portfolioList={portfolioList} />
@@ -101,18 +101,32 @@ const CoinTable = ({
                 <FaEllipsisV className="text-white" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>
-                <div className="flex items-center gap-1">
-                  <MdOutlineEdit /> Change name
-                </div>
+            <DropdownMenuContent className="gap-y-1">
+              <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
+                <MdOutlineEdit /> Change name
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <div className="flex items-center gap-1">
-                  <MdDeleteOutline /> Clear Transaction
-                </div>
-              </DropdownMenuItem>
+              <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
+                <MdDeleteOutline /> Clear Transaction
+              </DropdownMenuLabel>
+              <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
+                <ConfirmationDialog
+                  title={`Are you sure to delete ${portData.name}`}
+                  Icon={<MdDeleteOutline />}
+                  btnTitle="Delete Portfolio"
+                  btnVariant={"destructive"}
+                  onSubmit={() =>
+                    deletePortfolio(portData.id)
+                      .then(() => {
+                        toast.success(`Successfully deleted`);
+                        router.refresh();
+                      })
+                      .catch((e) => {
+                        handleError(e, true);
+                      })
+                  }
+                />
+              </DropdownMenuLabel>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

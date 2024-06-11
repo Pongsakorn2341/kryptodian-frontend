@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { usePortfolioModal } from "@/store/useAddPortfolioModal";
 import { IPortfolio } from "@/types/portfolio/portfolio";
@@ -6,14 +7,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import AddPortfolioDialog from "./AddPortfolioDialog";
+import AddPortfolioDialog from "./dialog/AddPortfolioDialog";
 
 type PortfolioProps = {
   portfolioList: IPortfolio[];
 };
 
 const Portfolio = ({ portfolioList }: PortfolioProps) => {
-  // const { data: portfolioList, isLoading, reload } = usePortfolio();
   const { portId } = useParams();
   const [mounted, setMounted] = useState(false);
   const { onOpen } = usePortfolioModal();

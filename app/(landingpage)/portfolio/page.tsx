@@ -1,5 +1,5 @@
 import Portfolio from "@/components/dashboard/portfolio/Portfolio";
-import { getPortfolios } from "@/server/portfolio/get-pofolios";
+import { getPortfolios } from "@/action/portfolio/pofolios";
 import { notFound } from "next/navigation";
 
 const Dashboard = async () => {
