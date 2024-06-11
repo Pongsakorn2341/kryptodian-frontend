@@ -114,13 +114,14 @@ const AddCoinDialog = ({
           </DialogHeader>
           <div className="w-full">
             <div className="my-3">
+              <Label htmlFor="name">Network</Label>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="w-full justify-between"
                   >
                     {networkId
                       ? networkList.find((network) => network.id === networkId)
