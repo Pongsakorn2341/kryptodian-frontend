@@ -36,7 +36,7 @@ const ConfirmationDialog = ({
 }: ConfirmationDialogProps) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{btnTitle}</AlertDialogTrigger>
+      <AlertDialogTrigger className="p-0 m-0">{btnTitle}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

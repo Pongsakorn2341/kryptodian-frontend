@@ -36,9 +36,9 @@ const CoinOptionDropdown = ({
           <FaEllipsisV className="text-white" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="gap-y-1">
+      <DropdownMenuContent className="gap-y-1 mx-2">
         <DropdownMenuSeparator />
-        <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
+        <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer pt-0">
           <ConfirmationDialog
             title={`Are you sure to remove coin`}
             btnTitle="Remove Coin"
