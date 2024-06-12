@@ -31,6 +31,8 @@ import ConfirmationDialog from "./dialog/ConfirmationDialog";
 import { INetwork } from "@/types/network/network";
 import { ITransaction } from "@/types/transaction";
 import PortfolioStat from "./PortfolioStat";
+import { useAddTransactionModal } from "@/store/useAddTransactionModal";
+import AddTransactionDialog from "./dialog/AddTransactionDialog";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
@@ -73,6 +75,8 @@ const CoinTable = ({
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { onOpen } = useAddCoinModal();
+  const { onOpen: onOpenAddTransaction } = useAddTransactionModal();
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -195,6 +199,9 @@ const CoinTable = ({
                       size="sm"
                       variant="ghost"
                       className="rounded-full text-white"
+                      onClick={() =>
+                        onOpenAddTransaction(portData.id, coinData.id)
+                      }
                     >
                       <FaPlus className="text-white" />
                     </Button>
@@ -220,6 +227,7 @@ const CoinTable = ({
         </TableBody>
       </Table>
       <AddCoinDialog portId={portData.id} networks={networks} />
+      <AddTransactionDialog coins={portData?.Coins ?? []} />
     </div>
   );
 };

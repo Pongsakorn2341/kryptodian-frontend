@@ -129,8 +129,8 @@ const AddCoinDialog = ({
                     {/* <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" /> */}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
+                <PopoverContent className="w-[200px] sm:w-[400px] p-0">
+                  <Command className="w-full">
                     <CommandInput
                       placeholder="Search network..."
                       className="h-9"

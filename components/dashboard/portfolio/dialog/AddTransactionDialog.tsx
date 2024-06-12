@@ -1,5 +1,6 @@
 "use client";
 
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -12,7 +13,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -23,65 +23,141 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { handleError } from "@/lib/helper";
 import { cn } from "@/lib/utils";
 import { useAddTransactionModal } from "@/store/useAddTransactionModal";
-import { INetwork } from "@/types/network/network";
-import { CheckIcon } from "lucide-react";
-import { useState } from "react";
+import { ICoin } from "@/types/coins/coin";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckIcon, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 type AddTransactionDialogProps = {
-  portfolioId: string;
+  coins: ICoin[];
 };
 
-const AddTransactionDialog = ({ portfolioId }: AddTransactionDialogProps) => {
-  const { isOpen, onClose } = useAddTransactionModal();
+const schema = z.object({
+  coin_id: z.string().min(1, { message: `Coin is required` }),
+  quantity: z
+    .number()
+    .positive()
+    .min(0, { message: `Quantity must be a positive value` }),
+  price: z
+    .number()
+    .positive()
+    .min(0, { message: `Price must be a positive value` }),
+  date: z.date(),
+});
+
+type ISchema = z.infer<typeof schema>;
+
+const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
+  console.log("🚀 ~ AddTransactionDiaslog ~ coins:", coins);
+  const { isOpen, portId, defaultCoin, onClose } = useAddTransactionModal();
   const [isToggleCoin, setToggleCoin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState<string>("");
+
+  const currentCoinData = useMemo(() => {
+    return (coins ?? []).find((item) => item.id == selected);
+  }, [selected, defaultCoin]);
+
+  const form = useForm<ISchema>({
+    resolver: zodResolver(schema),
+  });
+  const { errors } = form.formState;
+  console.log("🚀 ~ AddTransactionDialog ~ errors:", errors);
+
+  const onSubmit = (data: ISchema) => {
+    console.log("🚀 ~ onSubmit ~ data:", data);
+    try {
+      setIsLoading(true);
+    } catch (e) {
+      handleError(e, true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (defaultCoin) {
+      setSelected(defaultCoin);
+      form.setValue("coin_id", defaultCoin);
+    }
+  }, [defaultCoin]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[800px] h-fit rounded-xl bg-secondary_dark border-0 text-white">
         <DialogHeader>
-          <DialogTitle>Add Transaction</DialogTitle>
+          <DialogTitle className="text-2xl text-start">
+            Add Transaction
+          </DialogTitle>
         </DialogHeader>
         <div className="w-full">
-          <div className="my-3">
-            <Label htmlFor="name">Network</Label>
+          <div className="my-3 space-y-1">
+            <Label htmlFor="name">Coins</Label>
             <Popover open={isToggleCoin} onOpenChange={setToggleCoin}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   role="combobox"
                   aria-expanded={isToggleCoin}
-                  className="w-full justify-between"
+                  className="w-full justify-between text-white bg-constrast/40"
                 >
-                  Select Coin
+                  <div className="flex items-center">
+                    {currentCoinData ? (
+                      <Image
+                        src={currentCoinData?.coinData?.attributes?.image_url}
+                        width={25}
+                        height={25}
+                        alt={`coin-icon`}
+                        className="mr-2"
+                      />
+                    ) : null}
+                    {currentCoinData?.name ?? "Select Coin"}
+                  </div>
+                  <ChevronDown />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
-                <Command>
+              <PopoverContent className="w-[200px] sm:w-[400px] p-0 bg-constrast/40 text-white">
+                <Command className="bg-constrast/40 text-white">
                   <CommandInput
-                    placeholder="Search network..."
+                    placeholder="Search coins ..."
                     className="h-9"
                   />
-                  <CommandList>
-                    <CommandEmpty>No Network found.</CommandEmpty>
+                  <CommandList {...form.register("coin_id")}>
+                    <CommandEmpty>No coin found.</CommandEmpty>
                     <CommandGroup>
-                      {([] as INetwork[]).map((network) => (
+                      {coins.map((coinData) => (
                         <CommandItem
-                          key={network.id}
-                          value={network.id}
-                          //   onSelect={(currentValue) => {
-                          //     setNetworkId(
-                          //       currentValue === networkId ? "" : currentValue
-                          //     );
-                          //     setOpen(false);
-                          //   }}
+                          key={coinData.id}
+                          value={coinData.id}
+                          className="bg-contrast/40 hover:bg-constrast hover:text-red-400"
+                          onSelect={(currentValue) => {
+                            if (currentValue) {
+                              setSelected(currentValue);
+                              setToggleCoin(false);
+                              form.setValue("coin_id", currentValue);
+                            }
+                          }}
                         >
-                          {network?.attributes?.name}
+                          <div className="flex gap-1 text-white ">
+                            <Image
+                              src={coinData?.coinData?.attributes?.image_url}
+                              width={25}
+                              height={25}
+                              alt={`coin-icon`}
+                            />
+                            {coinData?.name}
+                          </div>
                           <CheckIcon
                             className={cn(
-                              "ml-auto h-4 w-4"
-                              //   networkId === network.id
-                              //     ? "opacity-100"
-                              //     : "opacity-0"
+                              "ml-auto h-4 w-4 text-white",
+                              selected == coinData.id
+                                ? "opacity-100"
+                                : "opacity-0"
                             )}
                           />
                         </CommandItem>
@@ -91,34 +167,74 @@ const AddTransactionDialog = ({ portfolioId }: AddTransactionDialogProps) => {
                 </Command>
               </PopoverContent>
             </Popover>
-            {/* <Label htmlFor="name">Network</Label>
-        <Input
-          id="name"
-          disabled={isLoading}
-          {...form.register("network_name")}
-        /> */}
+            {errors.coin_id ? (
+              <p className="text-red-500 text-sm">{errors.coin_id.message}</p>
+            ) : null}
           </div>
-          <div className="my-3">
-            <Label htmlFor="name">Address</Label>
+          <div className="my-3 space-y-1">
+            <Label htmlFor="quantity">Quantity</Label>
             <Input
-              id="name"
-              //   disabled={isLoading}
-              //   {...form.register("address")}
+              id="quantity"
+              type="number"
+              className="text-white bg-constrast/40"
+              {...form.register("quantity", { valueAsNumber: true })}
             />
-            {/* {errors.address ? (
-              <span className="text-red-400">{errors.address.message}</span>
-            ) : null} */}
+            {errors.quantity ? (
+              <p className="text-red-500 text-sm">{errors.quantity.message}</p>
+            ) : null}
+          </div>
+          <div className="my-3 space-y-1">
+            <Label htmlFor="price">Price USD</Label>
+            <Input
+              id="price"
+              type="number"
+              className="text-white bg-constrast/40"
+              {...form.register("price", { valueAsNumber: true })}
+            />
+            {errors.price ? (
+              <p className="text-red-500 text-sm">{errors.price.message}</p>
+            ) : null}
+          </div>
+          <div className="my-3 space-y-1">
+            <Label htmlFor="total-spent">Total Spent</Label>
+            <Input
+              id="total-spent"
+              type="number"
+              disabled={true}
+              value={
+                form.watch("quantity" ?? 0) * (form.watch("price") ?? 0) ?? 0
+              }
+              className="text-white bg-constrast/40"
+            />
+          </div>
+          <div className="my-3 space-y-1">
+            <Label htmlFor="date">Date</Label>
+            <Input
+              id="date"
+              type="datetime-local"
+              className="text-white bg-constrast/40"
+              {...form.register("date", { valueAsDate: true })}
+            />
+            {errors.date ? (
+              <p className="text-red-500">{errors.date.message}</p>
+            ) : null}
           </div>
         </div>
-        <DialogFooter>
-          <Button
-            type="button"
-            variant={"default"}
-            // onClick={() => onSubmit(form.getValues())}
-          >
-            {/* {isLoading ? <LoadingSpinner /> : `Add Coin`} */}
-          </Button>
-        </DialogFooter>
+        {/* <DialogFooter onCli> */}
+        <Button
+          type="button"
+          onClick={async () => {
+            const res = await form.trigger();
+            if (res) {
+              onSubmit(form.getValues());
+            }
+          }}
+          variant={"default"}
+          className="text-white"
+        >
+          {isLoading ? <LoadingSpinner /> : "Add Transaction"}
+        </Button>
+        {/* </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

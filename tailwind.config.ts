@@ -36,6 +36,9 @@ const config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        constrast: {
+          DEFAULT: "hsl(var(--input-bg))",
+        },
         secondary_dark: {
           DEFAULT: "hsl(var(--secondary-dark))",
         },
