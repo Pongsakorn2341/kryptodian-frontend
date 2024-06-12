@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 const DashboardPage = () => {
   const session = useSession();
-
+  const isSignedIn = session.status == "authenticated";
   // TODO : check is valid session ?
 
   return (
@@ -28,7 +28,7 @@ const DashboardPage = () => {
         Portfolio of Crypto currencies
       </div>
       <div>
-        <Link href={"/portfolio"}>
+        <Link href={isSignedIn ? "/portfolio" : `/auth/login`}>
           <Button
             variant="default"
             className="md:text-lg p-4 md:p-6 rounded-full font-semibold"

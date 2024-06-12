@@ -19,7 +19,10 @@ import {
 } from "@/components/ui/table";
 import { handleError } from "@/lib/helper";
 import { useAddCoinModal } from "@/store/useAddCoinModal";
+import { useAddTransactionModal } from "@/store/useAddTransactionModal";
+import { INetwork } from "@/types/network/network";
 import { IPortfolio } from "@/types/portfolio/portfolio";
+import { ITransaction } from "@/types/transaction";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -27,13 +30,9 @@ import { FaEllipsisV, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import CoinOptionDropdown from "./CoinOptionDropdown";
 import AddCoinDialog from "./dialog/AddCoinDialog";
-import ConfirmationDialog from "./dialog/ConfirmationDialog";
-import { INetwork } from "@/types/network/network";
-import { ITransaction } from "@/types/transaction";
-import PortfolioStat from "./PortfolioStat";
-import { useAddTransactionModal } from "@/store/useAddTransactionModal";
 import AddTransactionDialog from "./dialog/AddTransactionDialog";
-import { Separator } from "@/components/ui/separator";
+import ConfirmationDialog from "./dialog/ConfirmationDialog";
+import PortfolioStat from "./PortfolioStat";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
@@ -88,9 +87,9 @@ const CoinTable = ({
 
   return (
     <div className="bg-primary_dark rounded-md">
-      <div className="flex justify-between my-4">
+      <div className="flex items-center justify-between my-4">
         <div>
-          <h1 className="text-3xl md:text-2xl sm:text-1xl text-white text-bold">
+          <h1 className="text-2xl md:text-4xl sm:text-1xl text-white font-extrabold">
             {portData?.name}
           </h1>
         </div>

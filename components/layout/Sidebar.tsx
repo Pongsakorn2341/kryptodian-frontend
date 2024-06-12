@@ -14,7 +14,7 @@ import {
   Settings,
   VideoIcon,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import { FaPlus, FaSignOutAlt } from "react-icons/fa";
 import AddPortfolioDialog from "../dashboard/portfolio/dialog/AddPortfolioDialog";
@@ -128,7 +128,7 @@ const Sidebar = ({ portfolioList = [] }: SidebarProps) => {
           className={cn(
             "text-sm gap-1 group flex p-3 w-full text-red-500 justify-start font-medium cursor-pointer hover:text-white hover:bg-red-500/10 rounded-lg transition"
           )}
-          onClick={() => signOut()}
+          onClick={() => signOut({ callbackUrl: `/auth/login` })}
         >
           <FaSignOutAlt /> Sign out
         </Button>
