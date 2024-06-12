@@ -23,7 +23,7 @@ const MobileSidebar = ({ portfolioList }: MobileSidebarProps) => {
     <Sheet>
       <SheetTrigger>
         <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu size={30} />
+          <Menu size={30} className="text-white" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
