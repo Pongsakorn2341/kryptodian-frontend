@@ -1,5 +1,6 @@
 "use client";
 
+import { addTransaction } from "@/action/transaction/transaction.action";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,8 +31,10 @@ import { ICoin } from "@/types/coins/coin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 type AddTransactionDialogProps = {
   coins: ICoin[];
@@ -53,7 +56,6 @@ const schema = z.object({
 type ISchema = z.infer<typeof schema>;
 
 const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
-  console.log("🚀 ~ AddTransactionDiaslog ~ coins:", coins);
   const { isOpen, portId, defaultCoin, onClose } = useAddTransactionModal();
   const [isToggleCoin, setToggleCoin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,13 +68,37 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
   const form = useForm<ISchema>({
     resolver: zodResolver(schema),
   });
+  const router = useRouter();
   const { errors } = form.formState;
-  console.log("🚀 ~ AddTransactionDialog ~ errors:", errors);
 
-  const onSubmit = (data: ISchema) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
+  const onSubmit = async (data: ISchema) => {
     try {
       setIsLoading(true);
+      if (!portId) {
+        throw new Error(`Invalid portfolio`);
+      }
+      if (!currentCoinData?.id) {
+        throw new Error(`Coin is not provided`);
+      }
+      const result = await addTransaction({
+        portfolio_id: portId,
+        action_date: data.date,
+        coin_id: currentCoinData?.id,
+        action: "BUY",
+        price: data.price,
+        amount: data.quantity,
+      });
+      if (result.id) {
+        toast.success(`Transaction Added`);
+        form.reset({
+          date: undefined,
+          price: undefined,
+          quantity: undefined,
+          coin_id: undefined,
+        });
+        onClose();
+        router.refresh();
+      }
     } catch (e) {
       handleError(e, true);
     } finally {
@@ -186,7 +212,7 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
             ) : null}
           </div>
           <div className="my-3 space-y-1">
-            <Label htmlFor="price">Price USD</Label>
+            <Label htmlFor="price">Price per coin (USD)</Label>
             <Input
               id="price"
               type="number"

@@ -140,7 +140,7 @@ const CoinTable = ({
           </DropdownMenu>
         </div>
       </div>
-      <PortfolioStat />
+      <PortfolioStat transactions={transactions} />
       <Table className="text-white ">
         <TableHeader className="whitespace-nowrap">
           <TableRow>

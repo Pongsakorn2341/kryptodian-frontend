@@ -36,12 +36,11 @@ export const getTransactions = async ({
 
 type IAddTransaction = {
   portfolio_id: string;
-  action_date: string;
+  action_date: Date;
   coin_id: string;
   action: ITransactionAction;
   price: number;
   amount: number;
-  currency_id: string;
 };
 
 export const addTransaction = async (
