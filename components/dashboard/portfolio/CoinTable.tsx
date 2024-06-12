@@ -29,10 +29,13 @@ import CoinOptionDropdown from "./CoinOptionDropdown";
 import AddCoinDialog from "./dialog/AddCoinDialog";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
 import { INetwork } from "@/types/network/network";
+import { ITransaction } from "@/types/transaction";
+import PortfolioStat from "./PortfolioStat";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
   networks: INetwork[];
+  transactions: ITransaction[];
 };
 
 const tableColumns = [
@@ -62,7 +65,11 @@ const tableColumns = [
   },
 ];
 
-const CoinTable = ({ portfolioData: portData, networks }: CoinTableProps) => {
+const CoinTable = ({
+  portfolioData: portData,
+  networks,
+  transactions,
+}: CoinTableProps) => {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { onOpen } = useAddCoinModal();
@@ -132,6 +139,7 @@ const CoinTable = ({ portfolioData: portData, networks }: CoinTableProps) => {
           </DropdownMenu>
         </div>
       </div>
+      <PortfolioStat />
       <Table className="text-white ">
         <TableHeader className="whitespace-nowrap">
           <TableRow>

@@ -11,7 +11,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-// import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +30,7 @@ import { cn } from "@/lib/utils";
 import { useAddCoinModal } from "@/store/useAddCoinModal";
 import { INetwork } from "@/types/network/network";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, CheckIcon, ChevronsUpDown } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { useRouter as useRouterNavigation } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
