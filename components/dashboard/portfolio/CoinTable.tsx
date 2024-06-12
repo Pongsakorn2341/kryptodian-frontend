@@ -145,7 +145,7 @@ const CoinTable = ({ portfolioData: portData, networks }: CoinTableProps) => {
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="border-white/10">
           {(portData?.Coins ?? []).map((coinData, idx) => {
             const coinId = coinData?.coinData?.attributes?.coingecko_coin_id;
             const priceChange = coinData?.priceChange?.[coinId];

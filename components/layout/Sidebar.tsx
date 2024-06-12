@@ -3,7 +3,8 @@ import { Montserrat } from "next/font/google";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { CiMoneyCheck1 } from "react-icons/ci";
+import { usePortfolioModal } from "@/store/useAddPortfolioModal";
+import { IPortfolio } from "@/types/portfolio/portfolio";
 import {
   Code,
   ImageIcon,
@@ -14,13 +15,10 @@ import {
   VideoIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import usePortfolio from "@/hooks/usePortfolio.hook";
-import { IPortfolio } from "@/types/portfolio/portfolio";
-import { Button } from "../ui/button";
+import { CiMoneyCheck1 } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
-import { usePortfolioModal } from "@/store/useAddPortfolioModal";
 import AddPortfolioDialog from "../dashboard/portfolio/dialog/AddPortfolioDialog";
-import { MdDeleteOutline } from "react-icons/md";
+import { Button } from "../ui/button";
 
 const montserrant = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -72,7 +70,7 @@ type SidebarProps = {
   portfolioList: IPortfolio[];
 };
 
-const Sidebar = ({ portfolioList }: SidebarProps) => {
+const Sidebar = ({ portfolioList = [] }: SidebarProps) => {
   const pathname = usePathname();
   const { onOpen } = usePortfolioModal();
 

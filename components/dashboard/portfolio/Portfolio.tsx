@@ -13,7 +13,7 @@ type PortfolioProps = {
   portfolioList: IPortfolio[];
 };
 
-const Portfolio = ({ portfolioList }: PortfolioProps) => {
+const Portfolio = ({ portfolioList = [] }: PortfolioProps) => {
   const { portId } = useParams();
   const [mounted, setMounted] = useState(false);
   const { onOpen } = usePortfolioModal();

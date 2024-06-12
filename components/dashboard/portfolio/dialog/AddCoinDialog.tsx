@@ -108,7 +108,7 @@ const AddCoinDialog = ({
   return (
     <div>
       <Dialog open={isOpen} onOpenChange={onCloseModal}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
             <DialogTitle>Add Coin</DialogTitle>
           </DialogHeader>
