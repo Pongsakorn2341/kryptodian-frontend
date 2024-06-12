@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 import { useAddCoinModal } from "@/store/useAddCoinModal";
 import { INetwork } from "@/types/network/network";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, ChevronDown } from "lucide-react";
 import { useRouter as useRouterNavigation } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -105,102 +105,100 @@ const AddCoinDialog = ({
     }
   };
   return (
-    <div>
-      <Dialog open={isOpen} onOpenChange={onCloseModal}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Add Coin</DialogTitle>
-          </DialogHeader>
-          <div className="w-full">
-            <div className="my-3">
-              <Label htmlFor="name">Network</Label>
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-full justify-between"
-                  >
-                    {networkId
-                      ? networkList.find((network) => network.id === networkId)
-                          ?.attributes.name
-                      : "Select Network..."}
-                    {/* <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" /> */}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] sm:w-[400px] p-0">
-                  <Command className="w-full">
-                    <CommandInput
-                      placeholder="Search network..."
-                      className="h-9"
-                    />
-                    <CommandList>
-                      <CommandEmpty>No Network found.</CommandEmpty>
-                      <CommandGroup>
-                        {networkList.map((network) => (
-                          <CommandItem
-                            key={network.id}
-                            value={network.id}
-                            onSelect={(currentValue) => {
-                              setNetworkId(
-                                currentValue === networkId ? "" : currentValue
-                              );
-                              setOpen(false);
-                            }}
-                          >
-                            {network?.attributes?.name}
-                            <CheckIcon
-                              className={cn(
-                                "ml-auto h-4 w-4",
-                                networkId === network.id
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              {/* <Label htmlFor="name">Network</Label>
+    <Dialog open={isOpen} onOpenChange={onCloseModal}>
+      <DialogContent className="sm:max-w-[600px] h-fit rounded-xl bg-secondary_dark border-0 text-white">
+        <DialogHeader>
+          <DialogTitle className="text-2xl text-start">Add Coin</DialogTitle>
+        </DialogHeader>
+        <div className="w-full">
+          <div className="my-3 space-y-1">
+            <Label htmlFor="name">Network</Label>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-full justify-between text-white bg-constrast/40"
+                >
+                  {networkId
+                    ? networkList.find((network) => network.id === networkId)
+                        ?.attributes.name
+                    : "Select Network..."}
+                  <ChevronDown />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[200px] sm:w-[400px] p-0 bg-constrast/40 text-white">
+                <Command className="w-full">
+                  <CommandInput
+                    placeholder="Search network..."
+                    className="h-9"
+                  />
+                  <CommandList>
+                    <CommandEmpty>No Network found.</CommandEmpty>
+                    <CommandGroup>
+                      {networkList.map((network) => (
+                        <CommandItem
+                          key={network.id}
+                          value={network.id}
+                          onSelect={(currentValue) => {
+                            setNetworkId(
+                              currentValue === networkId ? "" : currentValue
+                            );
+                            setOpen(false);
+                          }}
+                        >
+                          {network?.attributes?.name}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              networkId === network.id
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            {/* <Label htmlFor="name">Network</Label>
               <Input
                 id="name"
                 disabled={isLoading}
                 {...form.register("network_name")}
               /> */}
-              {errors.network_name ? (
-                <span className="text-red-400">
-                  {errors.network_name.message}
-                </span>
-              ) : null}
-            </div>
-            <div className="my-3">
-              <Label htmlFor="name">Address</Label>
-              <Input
-                id="name"
-                disabled={isLoading}
-                {...form.register("address")}
-              />
-              {errors.address ? (
-                <span className="text-red-400">{errors.address.message}</span>
-              ) : null}
-            </div>
+            {errors.network_name ? (
+              <span className="text-red-400">
+                {errors.network_name.message}
+              </span>
+            ) : null}
           </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant={"default"}
-              onClick={() => onSubmit(form.getValues())}
-            >
-              {isLoading ? <LoadingSpinner /> : `Add Coin`}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+          <div className="my-3">
+            <Label htmlFor="name">Address</Label>
+            <Input
+              id="name"
+              disabled={isLoading}
+              {...form.register("address")}
+            />
+            {errors.address ? (
+              <span className="text-red-400">{errors.address.message}</span>
+            ) : null}
+          </div>
+        </div>
+        <DialogFooter>
+          <Button
+            type="button"
+            variant={"default"}
+            onClick={() => onSubmit(form.getValues())}
+          >
+            {isLoading ? <LoadingSpinner /> : `Add Coin`}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

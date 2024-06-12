@@ -122,7 +122,7 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[200px] sm:w-[400px] p-0 bg-constrast/40 text-white">
-                <Command className="bg-constrast/40 text-white">
+                <Command className="w-full text-zinc-400">
                   <CommandInput
                     placeholder="Search coins ..."
                     className="h-9"
@@ -134,7 +134,7 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
                         <CommandItem
                           key={coinData.id}
                           value={coinData.id}
-                          className="bg-contrast/40 hover:bg-constrast hover:text-red-400"
+                          className="bg-contrast/40 hover:bg-constrast text-zinc-400"
                           onSelect={(currentValue) => {
                             if (currentValue) {
                               setSelected(currentValue);
@@ -150,7 +150,9 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
                               height={25}
                               alt={`coin-icon`}
                             />
-                            {coinData?.name}
+                            <span className="text-zinc-600">
+                              {coinData?.name}
+                            </span>
                           </div>
                           <CheckIcon
                             className={cn(
