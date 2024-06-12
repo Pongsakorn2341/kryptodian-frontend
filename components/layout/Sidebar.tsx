@@ -16,9 +16,10 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { CiMoneyCheck1 } from "react-icons/ci";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSignOutAlt } from "react-icons/fa";
 import AddPortfolioDialog from "../dashboard/portfolio/dialog/AddPortfolioDialog";
 import { Button } from "../ui/button";
+import { signOut } from "next-auth/react";
 
 const montserrant = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -120,6 +121,17 @@ const Sidebar = ({ portfolioList = [] }: SidebarProps) => {
             </Link>
           ))}
         </div>
+      </div>
+      <div className="px-3">
+        <Button
+          variant={"link"}
+          className={cn(
+            "text-sm gap-1 group flex p-3 w-full text-red-500 justify-start font-medium cursor-pointer hover:text-white hover:bg-red-500/10 rounded-lg transition"
+          )}
+          onClick={() => signOut()}
+        >
+          <FaSignOutAlt /> Sign out
+        </Button>
       </div>
       <AddPortfolioDialog />
     </div>

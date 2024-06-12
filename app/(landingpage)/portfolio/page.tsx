@@ -1,16 +1,18 @@
 import { getPortfolios } from "@/action/portfolio/portfolios";
-import Portfolio from "@/components/dashboard/portfolio/Portfolio";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 const Dashboard = async () => {
   const result = await getPortfolios();
   if (!result || !Array.isArray(result)) {
     notFound();
   }
+
+  if (Array.isArray(result) && result.length >= 1) {
+    redirect(`/portfolio/${result[0].id}`);
+  }
+
   return (
     <div>
-      <div className="text-center py-10">
-        {/* <Portfolio portfolioList={result} /> */}
-      </div>
+      <div className="text-center py-10"></div>
     </div>
   );
 };

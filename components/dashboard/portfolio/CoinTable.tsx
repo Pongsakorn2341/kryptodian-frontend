@@ -33,6 +33,7 @@ import { ITransaction } from "@/types/transaction";
 import PortfolioStat from "./PortfolioStat";
 import { useAddTransactionModal } from "@/store/useAddTransactionModal";
 import AddTransactionDialog from "./dialog/AddTransactionDialog";
+import { Separator } from "@/components/ui/separator";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
@@ -140,7 +141,11 @@ const CoinTable = ({
           </DropdownMenu>
         </div>
       </div>
-      <PortfolioStat transactions={transactions} />
+      <PortfolioStat
+        transactions={transactions}
+        totalCoin={(portData?.Coins ?? []).length}
+      />
+
       <Table className="text-white ">
         <TableHeader className="whitespace-nowrap">
           <TableRow>

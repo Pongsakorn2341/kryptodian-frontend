@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import dayjs from "dayjs";
+import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import { ZodError } from "zod";
 import { logout } from "./utils";
@@ -104,7 +105,11 @@ export const handleError = (
   if (result.code == 401) {
     logout().then(() => {
       setTimeout(() => {
-        (window.location as any) = "/auth/login";
+        redirect(`/auth/login`);
+        // if (typeof window != "undefined") {
+        //   (window.location as any) = "/auth/login";
+        // } else {
+        // }
       }, 1000);
     });
   }

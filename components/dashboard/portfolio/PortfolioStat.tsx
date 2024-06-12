@@ -23,13 +23,13 @@ const PortfolioStat = ({ transactions, totalCoin = 0 }: PortfolioStatProps) => {
     <div className="flex flex-col sm:flex-row gap-4 w-full my-4">
       <Card className="w-full bg-primary_dark border-white/10 p-4">
         <CardContent className="p-0">
-          <p className="text-white font-bold">${totalBalance}</p>
+          <p className="text-white text-2xl font-bold">${totalBalance}</p>
           <p className="text-zinc-400">Current Balance</p>
         </CardContent>
       </Card>
       <Card className="w-full  bg-primary_dark border-white/10 p-4">
         <CardContent className="p-0">
-          <p className="text-white font-bold">{totalCoin}</p>
+          <p className="text-white text-2xl font-bold">{totalCoin}</p>
           <p className="text-zinc-400">Total Coin</p>
         </CardContent>
       </Card>

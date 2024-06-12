@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/next-auth/next-auth-option";
 import { IPortfolio } from "@/types/portfolio/portfolio";
 import { getServerSession } from "next-auth";
 import { getAccessToken } from "../session/handle-fetch";
+import { checkAuthorized } from "../auth.action";
 
 export const getPortfolios = async (): Promise<IPortfolio[] | undefined> => {
   const accessToken = await getAccessToken();

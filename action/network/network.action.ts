@@ -16,7 +16,10 @@ export const getNetworks = async () => {
     }
   );
   const result: INetwork[] = await response.json();
-  const res = result?.filter(
+  if (!response.ok) {
+    return result;
+  }
+  const res = (result ?? []).filter(
     (item) => item?.attributes?.coingecko_asset_platform_id
   );
   return res;

@@ -1,7 +1,8 @@
+import { signIn } from "@/action/auth.action";
 import { DefaultSession, NextAuthOptions, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { handleError } from "../helper";
-import { handleFetchBackend } from "../utils";
+import { ILoginProps } from "./../../action/auth.action";
 
 declare module "next-auth" {
   interface Session {
@@ -44,35 +45,29 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
+        if (!credentials?.email || !credentials.password) {
+          throw new Error(`Require email & password.`);
+        }
         try {
-          if (!credentials?.email || !credentials.password) {
-            throw new Error(`Require email & password.`);
-          }
           const payload = {
             email: credentials.email,
             password: credentials.password,
             is_remember_me: !!credentials.is_remember_me,
-          };
-          const response = await handleFetchBackend<Session>({
-            path: `/auth/login`,
-            method: "POST",
-            withCredential: false,
-            isThrowError: true,
-            body: payload,
-          });
-          if (response.status === "success") {
-            const result = response.data;
-            return {
-              ...result.user,
-              access_token: result.access_token,
-              expires_at: result.expires_at,
-            };
+          } as ILoginProps;
+          const result: Session = await signIn(payload);
+          console.log("🚀 ~ authorize ~ result:", result);
+          if (!result?.access_token) {
+            throw new Error(`Invalid Credential`);
           }
+          return {
+            ...result.user,
+            access_token: result.access_token,
+            expires_at: result.expires_at,
+          };
         } catch (e) {
           const _err = handleError(e, false);
           throw new Error(_err.message);
         }
-        return null;
       },
     }),
   ],
