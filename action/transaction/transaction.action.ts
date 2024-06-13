@@ -69,3 +69,28 @@ export const addTransaction = async (
   }
   return result as ITransaction;
 };
+
+type IUpdateTransaction = IAddTransaction & { transaction_id: string };
+
+export const updateTransaction = async (
+  payload: IUpdateTransaction
+): Promise<ITransaction> => {
+  const accessToken = await getAccessToken();
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Authorization", `Bearer ${accessToken}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/${payload.transaction_id}`,
+    {
+      headers: headers,
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    }
+  );
+  const result = await response.json();
+  if (!response.ok) {
+    const _err = handleError(result, false);
+    throw new Error(_err.message);
+  }
+  return result as ITransaction;
+};

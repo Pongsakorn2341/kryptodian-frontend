@@ -1,6 +1,9 @@
 "use client";
 
-import { addTransaction } from "@/action/transaction/transaction.action";
+import {
+  addTransaction,
+  updateTransaction,
+} from "@/action/transaction/transaction.action";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +32,9 @@ import { handleError } from "@/lib/helper";
 import { cn } from "@/lib/utils";
 import { useAddTransactionModal } from "@/store/useAddTransactionModal";
 import { ICoin } from "@/types/coins/coin";
+import { ITransaction } from "@/types/transaction";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { watch } from "fs";
 import { CheckIcon, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -39,6 +44,7 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 type AddTransactionDialogProps = {
   coins: ICoin[];
+  txData?: ITransaction | null;
 };
 
 const schema = z.object({
@@ -57,7 +63,7 @@ const schema = z.object({
 
 type ISchema = z.infer<typeof schema>;
 
-const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
+const AddTransactionDialog = ({ coins, txData }: AddTransactionDialogProps) => {
   const { isOpen, portId, defaultCoin, onClose } = useAddTransactionModal();
   const [isToggleCoin, setToggleCoin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,22 +91,24 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
       if (!data.action) {
         throw new Error(`Please select buy or sell`);
       }
-      console.log(`ACTION : `, data.action);
-      const result = await addTransaction({
+      const payload = {
         portfolio_id: portId,
         action_date: data.date,
         coin_id: currentCoinData?.id,
         action: data.action,
         price: data.price,
         amount: data.quantity,
-      });
+      };
+      const result = txData
+        ? await updateTransaction({ ...payload, transaction_id: txData.id })
+        : await addTransaction(payload);
       if (result.id) {
         toast.success(`Transaction Added`);
         form.reset({
           date: undefined,
           price: undefined,
           quantity: undefined,
-          coin_id: undefined,
+          action: "BUY",
         });
         onClose();
         router.push(`/portfolio/${portId}/${currentCoinData.id}`);
@@ -119,6 +127,17 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
     }
   }, [defaultCoin]);
 
+  useEffect(() => {
+    if (!txData) return;
+    form.reset({
+      coin_id: txData?.coin_id,
+      action: txData?.action,
+      quantity: txData?.amount,
+      price: txData?.price,
+      date: txData?.action_at ? new Date(txData?.action_at) : undefined,
+    });
+  }, [txData]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[800px] h-fit rounded-xl bg-secondary_dark border-0 text-white">
@@ -128,7 +147,11 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
           </DialogTitle>
         </DialogHeader>
         <div className="w-full">
-          <Tabs defaultValue="account" className="w-full">
+          <Tabs
+            defaultValue="account"
+            className="w-full"
+            value={form.watch("action")}
+          >
             <TabsList
               className="w-full bg-constrast/40 py-2"
               {...form.register("action")}
@@ -157,6 +180,7 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
                   variant="outline"
                   role="combobox"
                   aria-expanded={isToggleCoin}
+                  disabled={txData ? true : false}
                   className="w-full justify-between text-white bg-constrast/40"
                 >
                   <div className="flex items-center">

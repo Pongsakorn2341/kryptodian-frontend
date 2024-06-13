@@ -77,6 +77,8 @@ const TransactionTable = ({
   const { onOpen } = useAddCoinModal();
   const { onOpen: onOpenAddTransaction } = useAddTransactionModal();
 
+  const [defaultTx, setDefaultTx] = useState<null | ITransaction>(null);
+
   const coinData = useMemo(() => {
     return (portData.Coins ?? []).find((item) => item.id == coinId);
   }, [portData.Coins, coinId]);
@@ -88,6 +90,11 @@ const TransactionTable = ({
   if (!mounted) {
     return null;
   }
+
+  const onOpenMOdal = () => {
+    if (!coinData?.id) return;
+    onOpenAddTransaction(portData.id, coinData?.id);
+  };
 
   return (
     <div className="bg-primary_dark rounded-md mt-2">
@@ -111,7 +118,7 @@ const TransactionTable = ({
             size="sm"
             variant="ghost"
             className="hover:bg-gray-400 text-white"
-            onClick={onOpen}
+            onClick={onOpenMOdal}
           >
             <FaPlus className="text-white" />
             <span className="ml-2">Add transaction</span>
@@ -161,6 +168,10 @@ const TransactionTable = ({
                       size="sm"
                       variant="ghost"
                       className="rounded-full text-white"
+                      onClick={() => {
+                        onOpenMOdal();
+                        setDefaultTx(txData);
+                      }}
                     >
                       <Edit className="text-white" size={15} />
                     </Button>
@@ -188,7 +199,7 @@ const TransactionTable = ({
           ) : null}
         </TableBody>
       </Table>
-      <AddTransactionDialog coins={portData?.Coins ?? []} />
+      <AddTransactionDialog coins={portData?.Coins ?? []} txData={defaultTx} />
     </div>
   );
 };
