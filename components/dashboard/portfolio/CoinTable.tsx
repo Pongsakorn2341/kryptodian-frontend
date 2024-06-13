@@ -34,6 +34,7 @@ import AddCoinDialog from "./dialog/AddCoinDialog";
 import AddTransactionDialog from "./dialog/AddTransactionDialog";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
 import PortfolioStat from "./PortfolioStat";
+import Image from "next/image";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
@@ -52,7 +53,7 @@ const tableColumns = [
   },
   {
     title: "Price",
-    className: "text-right text-gray-400 overflow-x-scroll",
+    className: "w-12 text-right text-gray-400 overflow-x-scroll",
   },
   {
     title: "24h",
@@ -68,7 +69,7 @@ const tableColumns = [
   },
   {
     title: "Actions",
-    className: "w-12 text-gray-400",
+    className: "text-gray-400",
   },
 ];
 
@@ -189,11 +190,16 @@ const CoinTable = ({
                 <TableCell className="font-medium">{idx + 1}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <img src={coinData?.coinData?.attributes?.image_url} />
+                    <Image
+                      width={40}
+                      height={40}
+                      alt={`coin-icon`}
+                      src={coinData?.coinData?.attributes?.image_url}
+                    />
                     <span>{coinData.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-right whitespace-nowrap overflow-y-scroll  text-ellipsis font-medium w-full">
+                <TableCell className="text-right whitespace-nowrap text-ellipsis font-medium">
                   {btnPrice} BTC
                 </TableCell>
                 {isProfit ? (

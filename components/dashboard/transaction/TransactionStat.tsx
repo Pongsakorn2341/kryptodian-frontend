@@ -34,8 +34,8 @@ const TransactionStat = ({
       </Card>
       <Card className="w-full  bg-primary_dark border-white/10 p-4">
         <CardContent className="p-0">
-          <p className="text-white text-2xl font-bold">{totalCoin}</p>
-          <p className="text-zinc-400">Total Coin</p>
+          <p className="text-white text-2xl font-bold">{transactions.length}</p>
+          <p className="text-zinc-400">Total Transaction</p>
         </CardContent>
       </Card>
       {/* <Card className="w-full bg-primary_dark border-white/10 p-4">
