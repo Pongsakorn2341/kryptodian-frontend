@@ -52,10 +52,14 @@ const tableColumns = [
   },
   {
     title: "Price",
-    className: "text-right text-gray-400 min-w-[60px] overflow-x-scroll",
+    className: "text-right text-gray-400 overflow-x-scroll",
   },
   {
     title: "24h",
+    className: "text-right text-gray-400 w-fit",
+  },
+  {
+    title: "Holding",
     className: "text-right text-gray-400 w-fit",
   },
   {
@@ -169,6 +173,17 @@ const CoinTable = ({
             const btnPrice = (priceChange?.btc ?? 0)
               .toFixed(20)
               .replace(/\.?0+$/, "");
+
+            const totalHolding = transactions.reduce((acc, curr) => {
+              if (curr.coin_id != coinData.id) return acc;
+              const total = curr.amount * curr.price;
+              if (curr.action == "BUY") {
+                return acc + total;
+              } else {
+                return acc - total;
+              }
+            }, 0);
+
             return (
               <TableRow key={coinData.id}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
@@ -192,6 +207,12 @@ const CoinTable = ({
                     &#8595; {totalChange.toFixed(2)} %
                   </TableCell>
                 )}
+                <TableCell className="text-right">
+                  {totalHolding.toLocaleString("en")}
+                  <span className="text-zinc-400">
+                    {` ${coinData?.coinData?.attributes?.symbol}`}
+                  </span>
+                </TableCell>
 
                 <TableCell className="text-right">
                   {marketCap

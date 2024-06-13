@@ -1,14 +1,6 @@
 "use client";
 
-import { deletePortfolio } from "@/action/portfolio/portfolios";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -17,22 +9,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { handleError } from "@/lib/helper";
+import { formatDate } from "@/lib/utils";
 import { useAddCoinModal } from "@/store/useAddCoinModal";
 import { useAddTransactionModal } from "@/store/useAddTransactionModal";
 import { IPortfolio } from "@/types/portfolio/portfolio";
 import { ITransaction } from "@/types/transaction";
-import { Coins, Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import toast from "react-hot-toast";
-import { FaEllipsisV, FaPlus } from "react-icons/fa";
-import { MdOutlineEdit } from "react-icons/md";
-import AddTransactionDialog from "../portfolio/dialog/AddTransactionDialog";
-import ConfirmationDialog from "../portfolio/dialog/ConfirmationDialog";
-import TransactionStat from "./TransactionStat";
-import { formatDate } from "@/lib/utils";
+import { FaPlus } from "react-icons/fa";
 import Heading from "../Heading";
+import AddTransactionDialog from "../portfolio/dialog/AddTransactionDialog";
+import TransactionStat from "./TransactionStat";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
@@ -154,13 +142,16 @@ const TransactionTable = ({
                 <TableCell
                   className={`${textColor} text-right whitespace-nowrap items-center`}
                 >
-                  {`${txData.action == "BUY" ? "+" : "-"} ${txData.amount}`}
+                  {`${
+                    txData.action == "BUY" ? "+" : "-"
+                  } ${txData.amount.toLocaleString("en")}`}
                 </TableCell>
                 <TableCell className="text-right whitespace-nowrap">
                   {formatDate(txData.action_at)}
                 </TableCell>
-                <TableCell className="text-right">
-                  {txData.amount * txData.price}
+                <TableCell className={`text-right ${textColor}`}>
+                  {txData.action == "BUY" ? "+ " : "- "} $
+                  {(txData.amount * txData.price).toLocaleString("en")}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-center space-x-2">
@@ -187,7 +178,7 @@ const TransactionTable = ({
               </TableRow>
             );
           })}
-          {(portData?.Coins ?? []).length == 0 ? (
+          {(transactions ?? []).length == 0 ? (
             <TableRow>
               <TableCell
                 className="text-center py-8 sm:py-6"
