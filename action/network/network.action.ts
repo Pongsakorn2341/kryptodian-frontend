@@ -9,7 +9,7 @@ export const getNetworks = async () => {
   headers.append("Content-Type", "application/json");
   headers.append("Authorization", `Bearer ${accessToken}`);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/token/network`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/crypto-provider/network`,
     {
       headers: headers,
       method: "GET",
