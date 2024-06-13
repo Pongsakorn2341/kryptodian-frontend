@@ -16,9 +16,8 @@ const layout = async ({ children }: { children: ReactNode }) => {
       </div>
       <main className="md:pl-72">
         <Navbar />
-        <div className="container">{children}</div>
+        {children}
       </main>
-      {/* <div className="container"></div> */}
     </div>
   );
 };

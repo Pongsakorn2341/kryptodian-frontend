@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <div
       className={cn(
-        "flex min-h-screen flex-col items-center justify-center",
+        "flex min-h-screen flex-col items-center justify-center m-0 p-0",
         "bg-slate-900 text-white"
       )}
     >

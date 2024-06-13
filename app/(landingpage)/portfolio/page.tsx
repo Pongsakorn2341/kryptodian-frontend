@@ -11,7 +11,7 @@ const Dashboard = async () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <div className="text-center py-10"></div>
     </div>
   );

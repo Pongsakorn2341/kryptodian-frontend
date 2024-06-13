@@ -23,7 +23,7 @@ const page = async (req: { params: { portId: string } }) => {
   }
 
   return (
-    <div>
+    <div className="container">
       <CoinTable
         portfolioData={portfolioData}
         networks={networks}

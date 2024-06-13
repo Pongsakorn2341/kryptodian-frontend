@@ -17,15 +17,18 @@ export const addCoin = async ({
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append("Authorization", `Bearer ${accessToken}`);
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/token`, {
-    headers: headers,
-    method: "POST",
-    body: JSON.stringify({
-      network_id: network,
-      address,
-      portfolio_id: portfolioId,
-    }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/portfolio/add-coin`,
+    {
+      headers: headers,
+      method: "POST",
+      body: JSON.stringify({
+        network_id: network,
+        address,
+        portfolio_id: portfolioId,
+      }),
+    }
+  );
   const result = await response.json();
   return result;
 };
