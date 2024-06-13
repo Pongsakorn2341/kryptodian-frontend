@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDate } from "@/lib/utils";
-import { useAddCoinModal } from "@/store/useAddCoinModal";
 import { useAddTransactionModal } from "@/store/useAddTransactionModal";
 import { IPortfolio } from "@/types/portfolio/portfolio";
 import { ITransaction } from "@/types/transaction";
@@ -62,7 +61,6 @@ const TransactionTable = ({
 }: CoinTableProps) => {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
-  const { onOpen } = useAddCoinModal();
   const { onOpen: onOpenAddTransaction } = useAddTransactionModal();
 
   const [defaultTx, setDefaultTx] = useState<null | ITransaction>(null);
@@ -86,17 +84,18 @@ const TransactionTable = ({
 
   return (
     <div className="bg-primary_dark rounded-md mt-2">
-      <div className="flex items-center justify-between mt-10 my-4">
-        <div className="my-2">
+      <div className="flex items-center justify-start mt-10 my-4">
+        <div className="flex my-2 items-center">
           <Heading
             title={coinData?.name ?? `Coin`}
             description={coinData?.coinData.attributes?.symbol ?? "Symbol"}
             image={coinData?.coinData?.attributes?.image_url}
             bgColor="bg-zinc-700"
+            backURL={`/portfolio/${portData.id}`}
           />
         </div>
       </div>
-      <TransactionStat transactions={transactions} totalCoin={0} />
+      <TransactionStat transactions={transactions} />
       <div className="flex items-center justify-between my-4">
         <div>
           <h1 className="text-1xl text-white font-bold">Transaction</h1>

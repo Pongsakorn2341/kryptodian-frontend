@@ -5,12 +5,8 @@ import { ITransaction } from "@/types/transaction";
 import { useMemo } from "react";
 type TransactionStatProps = {
   transactions: ITransaction[];
-  totalCoin: number;
 };
-const TransactionStat = ({
-  transactions,
-  totalCoin = 0,
-}: TransactionStatProps) => {
+const TransactionStat = ({ transactions }: TransactionStatProps) => {
   const totalBalance = useMemo(() => {
     return transactions.reduce((acc, curr) => {
       const total = curr.amount * curr.price;

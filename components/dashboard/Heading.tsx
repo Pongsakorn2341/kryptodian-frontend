@@ -1,14 +1,14 @@
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
 import Image from "next/image";
-import React from "react";
-
+import { useRouter } from "next/navigation";
+import { IoChevronBack } from "react-icons/io5";
 interface HeadingProps {
   title: string;
   description: string;
   image?: string;
   iconColor?: string;
   bgColor?: string;
+  backURL?: string;
 }
 
 const Heading = ({
@@ -17,11 +17,20 @@ const Heading = ({
   image: imageURL,
   iconColor,
   bgColor,
+  backURL,
 }: HeadingProps) => {
+  const router = useRouter();
+
   return (
     <div className="px-4 lg:px-8 flex items-center gap-x-3 mb-8 text-white">
+      {backURL ? (
+        <IoChevronBack
+          className="cursor-pointer ml-2"
+          size={35}
+          onClick={() => router.push(backURL)}
+        />
+      ) : null}
       <div className={cn("p-2 rounded-md", bgColor)}>
-        {/* <Icon className={cn("w-10 h-10", iconColor)} /> */}
         {imageURL ? (
           <Image src={imageURL} width={40} height={40} alt={`Icon-Coin`} />
         ) : null}

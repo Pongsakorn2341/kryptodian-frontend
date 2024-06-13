@@ -52,7 +52,7 @@ const tableColumns = [
     className: "text-gray-400 w-fit",
   },
   {
-    title: "Price",
+    title: "Price in BTC",
     className: "w-12 text-right text-gray-400 overflow-x-scroll",
   },
   {
