@@ -33,6 +33,7 @@ import AddCoinDialog from "./dialog/AddCoinDialog";
 import AddTransactionDialog from "./dialog/AddTransactionDialog";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
 import PortfolioStat from "./PortfolioStat";
+import { Trash2 } from "lucide-react";
 
 type CoinTableProps = {
   portfolioData: IPortfolio;
@@ -43,7 +44,7 @@ type CoinTableProps = {
 const tableColumns = [
   {
     title: "#",
-    className: "w-12 text-gray-400",
+    className: "text-gray-400",
   },
   {
     title: "Coin",
@@ -121,7 +122,7 @@ const CoinTable = ({
               <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
                 <ConfirmationDialog
                   title={`Are you sure to delete ${portData.name}`}
-                  Icon={<MdDeleteOutline />}
+                  Icon={Trash2}
                   btnTitle="Delete Portfolio"
                   btnVariant={"destructive"}
                   onSubmit={() =>

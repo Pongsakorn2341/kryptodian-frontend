@@ -44,6 +44,10 @@ const AddPortfolioDialog = ({}: AddPortfolioDialogProps) => {
 
   const onSubmit = async (data: ISchema) => {
     try {
+      if (!data.name) {
+        toast.error(`Portfolio name is not provided`);
+        return;
+      }
       const response = await addPortfolio(data.name);
       if (response) {
         toast.success(`Portfolio ${data.name} is added.`);
@@ -56,29 +60,27 @@ const AddPortfolioDialog = ({}: AddPortfolioDialogProps) => {
   };
 
   return (
-    <div>
-      <Dialog open={isOpen} onOpenChange={onCloseModal}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add Portfolio</DialogTitle>
-          </DialogHeader>
-          <div className="flex items-center w-full">
-            <div className="w-full">
-              <Label htmlFor="name">Portfolio Name</Label>
-              <Input id="name" {...form.register("name")} />
-              {errors.name ? (
-                <span className="text-red-400">{errors.name.message}</span>
-              ) : null}
-            </div>
+    <Dialog open={isOpen} onOpenChange={onCloseModal}>
+      <DialogContent className="sm:max-w-[450px] bg-secondary_dark text-white border-0">
+        <DialogHeader>
+          <DialogTitle className="text-2xl">Add Portfolio</DialogTitle>
+        </DialogHeader>
+        <div className="flex items-center w-full">
+          <div className="w-full">
+            <Label htmlFor="name">Portfolio Name</Label>
+            <Input id="name" {...form.register("name")} />
+            {errors.name ? (
+              <span className="text-red-400">{errors.name.message}</span>
+            ) : null}
           </div>
-          <DialogFooter>
-            <Button type="button" onClick={() => onSubmit(form.getValues())}>
-              Add Port
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </div>
+        <DialogFooter>
+          <Button type="button" onClick={() => onSubmit(form.getValues())}>
+            Add Port
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

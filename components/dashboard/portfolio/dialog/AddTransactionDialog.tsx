@@ -24,6 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { handleError } from "@/lib/helper";
 import { cn } from "@/lib/utils";
 import { useAddTransactionModal } from "@/store/useAddTransactionModal";
@@ -41,6 +42,7 @@ type AddTransactionDialogProps = {
 };
 
 const schema = z.object({
+  action: z.enum(["BUY", "SELL"]).default("BUY"),
   coin_id: z.string().min(1, { message: `Coin is required` }),
   quantity: z
     .number()
@@ -80,11 +82,15 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
       if (!currentCoinData?.id) {
         throw new Error(`Coin is not provided`);
       }
+      if (!data.action) {
+        throw new Error(`Please select buy or sell`);
+      }
+      console.log(`ACTION : `, data.action);
       const result = await addTransaction({
         portfolio_id: portId,
         action_date: data.date,
         coin_id: currentCoinData?.id,
-        action: "BUY",
+        action: data.action,
         price: data.price,
         amount: data.quantity,
       });
@@ -97,7 +103,7 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
           coin_id: undefined,
         });
         onClose();
-        router.refresh();
+        router.push(`/portfolio/${portId}/${currentCoinData.id}`);
       }
     } catch (e) {
       handleError(e, true);
@@ -122,6 +128,27 @@ const AddTransactionDialog = ({ coins }: AddTransactionDialogProps) => {
           </DialogTitle>
         </DialogHeader>
         <div className="w-full">
+          <Tabs defaultValue="account" className="w-full">
+            <TabsList
+              className="w-full bg-constrast/40 py-2"
+              {...form.register("action")}
+            >
+              <TabsTrigger
+                value="BUY"
+                className="w-full"
+                onClick={() => form.setValue("action", "BUY")}
+              >
+                Buy
+              </TabsTrigger>
+              <TabsTrigger
+                value="SELL"
+                className="w-full"
+                onClick={() => form.setValue("action", "SELL")}
+              >
+                Sell
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
           <div className="my-3 space-y-1">
             <Label htmlFor="name">Coins</Label>
             <Popover open={isToggleCoin} onOpenChange={setToggleCoin}>

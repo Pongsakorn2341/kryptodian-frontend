@@ -13,6 +13,7 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 
 import { VariantProps } from "class-variance-authority";
+import { LucideIcon } from "lucide-react";
 import { ReactElement } from "react";
 
 type ConfirmationDialogProps = {
@@ -21,22 +22,25 @@ type ConfirmationDialogProps = {
   btnVariant?: VariantProps<typeof buttonVariants>["variant"];
   description?: string;
   submitTitle?: string;
-  Icon?: ReactElement;
+  Icon: LucideIcon;
   onSubmit: () => {};
 };
 
 const ConfirmationDialog = ({
   title,
   btnTitle,
-  Icon,
   btnVariant = "default",
   description,
   submitTitle = "Confirm",
   onSubmit,
+  ...rest
 }: ConfirmationDialogProps) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="p-0 m-0">{btnTitle}</AlertDialogTrigger>
+      <AlertDialogTrigger className="flex items-center gap-1 p-0 m-0">
+        <rest.Icon size={17} />
+        {btnTitle}
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

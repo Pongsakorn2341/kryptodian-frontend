@@ -6,10 +6,12 @@ import { getAccessToken } from "../session/handle-fetch";
 
 type IGetTransactionAction = {
   portfolioId?: string;
+  coinId?: string;
 };
 
 export const getTransactions = async ({
   portfolioId,
+  coinId,
 }: IGetTransactionAction): Promise<ITransaction[]> => {
   const accessToken = await getAccessToken();
   const headers = new Headers();
@@ -18,6 +20,7 @@ export const getTransactions = async ({
   const params = new URLSearchParams(
     removeUndefinedValues({
       portfolio_id: portfolioId,
+      coin_id: coinId,
     })
   );
   const response = await fetch(
@@ -29,6 +32,7 @@ export const getTransactions = async ({
   const result = await response.json();
   if (!response.ok) {
     const _err = handleError(result, false);
+    console.log("🚀 ~ _err:", _err);
     throw new Error(_err.message);
   }
   return result as ITransaction[];

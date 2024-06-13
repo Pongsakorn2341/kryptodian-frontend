@@ -55,7 +55,6 @@ export const authOptions: NextAuthOptions = {
             is_remember_me: !!credentials.is_remember_me,
           } as ILoginProps;
           const result: Session = await signIn(payload);
-          console.log("🚀 ~ authorize ~ result:", result);
           if (!result?.access_token) {
             throw new Error(`Invalid Credential`);
           }

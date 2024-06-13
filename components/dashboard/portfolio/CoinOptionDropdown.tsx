@@ -5,13 +5,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { handleError } from "@/lib/helper";
+import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { FaEllipsisV } from "react-icons/fa";
+import { FaEllipsisV, FaEye } from "react-icons/fa";
 import ConfirmationDialog from "./dialog/ConfirmationDialog";
 
 type CoinOptionDropdownProps = {
@@ -37,12 +37,12 @@ const CoinOptionDropdown = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="gap-y-1 mx-2">
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer pt-0">
+        <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
           <ConfirmationDialog
             title={`Are you sure to remove coin`}
             btnTitle="Remove Coin"
             btnVariant={"destructive"}
+            Icon={Trash2}
             onSubmit={() =>
               removeCoin({ portfolioId: portfolioId, coinId: coinId })
                 .then(() => {
@@ -54,6 +54,12 @@ const CoinOptionDropdown = ({
                 })
             }
           />
+        </DropdownMenuLabel>
+        <DropdownMenuLabel
+          className="flex items-center gap-1 cursor-pointer"
+          onClick={() => router.push(`/portfolio/${portfolioId}/${coinId}`)}
+        >
+          <FaEye /> View Transaction
         </DropdownMenuLabel>
       </DropdownMenuContent>
     </DropdownMenu>
