@@ -9,8 +9,6 @@
   <p align="center">
    Welcome to the Cryptocurrency Portfolio Builder! This project is a powerful, user-friendly web application designed to help you build and manage your own cryptocurrency portfolio. Built with the latest technologies, including Next.js 14 App Router, Tailwind CSS, and Shadcn/UI, this application provides a seamless and modern user experience.
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
   </p>
 </div>
 
@@ -28,12 +26,7 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-## Getting Started
-
-This is a Kryptodian Profolio project.
-
-# Feature
+### Feature
 * User Authentication: Secure login and signup functionality to protect your data.
 * Dashboard: A comprehensive dashboard displaying an overview of your cryptocurrency holdings, current market values, and portfolio performance.
 * Portfolio Management: Easily add, update, and remove cryptocurrencies from your portfolio.
@@ -85,7 +78,7 @@ NEXT_PUBLIC_BACKEND_URL=        # Your backend url is started at eg. http://loca
 
 ### Running the Application
 
-1. Build Nextjs
+1. Start development
 ```bash
 $ yarn dev
 ```
@@ -167,6 +160,7 @@ volumes:
 ## Contact
 
 Pongsakorn Parsoppornpiboon - pongsakorn.psb@gmail.com
+<br />
 Github : https://github.com/Pongsakorn2341
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
