@@ -1,4 +1,4 @@
-import { getPortfolios } from "@/action/portfolio/portfolios";
+import { getPortfolios } from "@/action/portfolio/portfolios.action";
 import { notFound, redirect } from "next/navigation";
 const Dashboard = async () => {
   const result = await getPortfolios();

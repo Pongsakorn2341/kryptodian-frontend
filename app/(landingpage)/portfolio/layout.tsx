@@ -1,4 +1,4 @@
-import { getPortfolios } from "@/action/portfolio/portfolios";
+import { getPortfolios } from "@/action/portfolio/portfolios.action";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import { notFound } from "next/navigation";

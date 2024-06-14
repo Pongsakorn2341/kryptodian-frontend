@@ -1,5 +1,5 @@
 import { getNetworks } from "@/action/network/network.action";
-import { getPortfolioData } from "@/action/portfolio/portfolios";
+import { getPortfolioData } from "@/action/portfolio/portfolios.action";
 import { getTransactions } from "@/action/transaction/transaction.action";
 import CoinTable from "@/components/dashboard/portfolio/CoinTable";
 import { notFound } from "next/navigation";

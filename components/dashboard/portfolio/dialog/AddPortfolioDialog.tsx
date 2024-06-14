@@ -1,6 +1,6 @@
 "use client";
 
-import { addPortfolio } from "@/action/portfolio/portfolios";
+import { addPortfolio } from "@/action/portfolio/portfolios.action";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

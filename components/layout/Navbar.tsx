@@ -1,4 +1,4 @@
-import { getPortfolios } from "@/action/portfolio/portfolios";
+import { getPortfolios } from "@/action/portfolio/portfolios.action";
 import MobileSidebar from "./MobileSidebar";
 
 const Navbar = async () => {
