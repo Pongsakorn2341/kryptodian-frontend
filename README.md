@@ -71,10 +71,26 @@ $ yarn install
 
 3. Setup ENV
 
+ENV for development
 ```
-NEXTAUTH_URL=                   # Your application url eg. http://localhost:3000
-NEXTAUTH_SECRET=                # Your secret or can get from command `openssl rand -base64 32`
-NEXT_PUBLIC_BACKEND_URL=        # Your backend url is started at eg. http://localhost:4444
+NEXTAUTH_URL=http://localhost:3000
+
+# Generate from `openssl rand -base64 32`
+NEXTAUTH_SECRET=
+
+NEXT_PUBLIC_BACKEND_URL=http://localhost:4444/api/v1
+```
+
+ENV for docker compose startup
+```
+# http://{frontend_service_name}:{frontend_port}
+NEXTAUTH_URL=http://frontend:3000
+
+# Generate from `openssl rand -base64 32`
+NEXTAUTH_SECRET=
+
+# http://{backend_service_name}:${backend_port}/api/v1
+NEXT_PUBLIC_BACKEND_URL=http://backend:4444/api/v1
 ```
 
 ### Running the Application
