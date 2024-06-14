@@ -120,10 +120,10 @@ const CoinTable = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="gap-y-1 mx-2">
-              <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
+              {/* <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
                 <MdOutlineEdit /> Change name
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator /> */}
               <DropdownMenuLabel className="flex items-center gap-1 cursor-pointer">
                 <ConfirmationDialog
                   title={`Are you sure to delete ${portData.name}`}
