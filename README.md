@@ -3,11 +3,13 @@
 
 <br />
 <div align="center">
-
+     <a href="https://github.com/Pongsakorn2341/kryptodian-frontend">
+    <img src="./public/images/kryptodian-image.jpg" alt="Logo" width="80" height="80">
+  </a>
   <h3 align="center">Kryptodian Portfolio for Test</h3>
 
   <p align="center">
-   Welcome to the Cryptocurrency Portfolio Builder! This project is a powerful, user-friendly web application designed to help you build and manage your own cryptocurrency portfolio. Built with the latest technologies, including Next.js 14 App Router, Tailwind CSS, and Shadcn/UI, this application provides a seamless and modern user experience.
+   Welcome to the Cryptocurrency Portfolio Builder! This project is a powerful, user-friendly **web** application designed to help you build and manage your own cryptocurrency portfolio. Built with the latest technologies, including Next.js 14 App Router, Tailwind CSS, and Shadcn/UI, this application provides a seamless and modern user experience.
     <br />
   </p>
 </div>
