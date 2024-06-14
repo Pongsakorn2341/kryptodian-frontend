@@ -28,7 +28,7 @@ Make sure you have installed all of the following prerequisites on your developm
 
 ## Docker Compose file
 
-```bash
+```yml
 version: "3"
 services:
   frontend:
