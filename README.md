@@ -1,4 +1,4 @@
-<!-- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). -->
+<a name="readme-top"></a>
 
 This is a Kryptodian Profolio project.
 
@@ -22,6 +22,15 @@ Make sure you have installed all of the following prerequisites on your developm
     │   ├────── .env                         # Your Backend environments
     │   └── docker-compose.yml          # docker file for start web application
     └── ...
+
+## Clone Project
+
+```bash
+$ mkdir kryptodian
+$ cd kryptodian
+$ git clone https://github.com/Pongsakorn2341/kryptodian-frontend.git
+$ git clone https://github.com/Pongsakorn2341/kryptodian-backend.git
+```
 
 ## Diagram
 ![Diagram](./kryptodian-diagram.jpg)
@@ -85,7 +94,7 @@ volumes:
 
 ## ENV Usage
 Add your application configuration to your .env file in the root of kryptodian-frontend project:
-```bash
+```
 NEXTAUTH_URL=                   # Your application url eg. http://localhost:3000
 NEXTAUTH_SECRET=                # Your secret or can get from command `openssl rand -base64 32`
 NEXT_PUBLIC_BACKEND_URL=        # Your backend url is started at eg. http://localhost:4444
@@ -123,3 +132,10 @@ Your application should run on port 3000 with the *development* environment conf
 That's it! Your application should be running. To proceed with your development, check the other sections in this documentation.
 If you encounter any problems, try the Troubleshooting section.
 
+
+## Contact
+
+Pongsakorn Parsoppornpiboon - pongsakorn.psb@gmail.com
+Github : https://github.com/Pongsakorn2341
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
