@@ -1,17 +1,54 @@
 <a name="readme-top"></a>
 
-This is a Kryptodian Profolio project.
+
+<br />
+<div align="center">
+
+  <h3 align="center">Kryptodian Portfolio for Test</h3>
+
+  <p align="center">
+   Welcome to the Cryptocurrency Portfolio Builder! This project is a powerful, user-friendly web application designed to help you build and manage your own cryptocurrency portfolio. Built with the latest technologies, including Next.js 14 App Router, Tailwind CSS, and Shadcn/UI, this application provides a seamless and modern user experience.
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <br />
+  </p>
+</div>
+
+
+
+### Built With
+
+* Next.js 14: Utilized the latest App Router for optimized routing and improved performance.
+* Tailwind CSS: For crafting a highly responsive and visually appealing user interface.
+* Shadcn/UI: Leveraged Shadcn/UI components for a consistent and polished UI/UX.
+* TypeScript: Ensuring type safety and enhanced developer experience.
+* API Integration: Integrated with Coin Gecko APIs for fetching real-time cryptocurrency data.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 ## Getting Started
+
+This is a Kryptodian Profolio project.
+
+# Feature
+* User Authentication: Secure login and signup functionality to protect your data.
+* Dashboard: A comprehensive dashboard displaying an overview of your cryptocurrency holdings, current market values, and portfolio performance.
+* Portfolio Management: Easily add, update, and remove cryptocurrencies from your portfolio.
+* Real-time Data: Integration with cryptocurrency market APIs to provide real-time price updates and market trends.
+* Responsive Design: Fully responsive layout ensuring optimal user experience on both desktop and mobile devices.
+
+
 ## Prerequisites
 Make sure you have installed all of the following prerequisites on your development machine:
 * Git - [Download & Install Git](https://git-scm.com/downloads). OSX and Linux machines typically have this already installed.
 * Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager. If you encounter any problems, you can also use this [GitHub Gist](https://gist.github.com/isaacs/579814) to install Node.js.
 * Node.js 20.* and above
-* Yarn - [Download & Install yarn][https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable]. Yarn package manager.
+* Yarn - [Download & Install yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable). Yarn package manager.
 
 ### A typical top-level directory layout
-
 
     .
     ├── ...
@@ -23,8 +60,9 @@ Make sure you have installed all of the following prerequisites on your developm
     │   └── docker-compose.yml          # docker file for start web application
     └── ...
 
-## Clone Project
+### Installation
 
+1. Clone the repository.
 ```bash
 $ mkdir kryptodian
 $ cd kryptodian
@@ -32,8 +70,38 @@ $ git clone https://github.com/Pongsakorn2341/kryptodian-frontend.git
 $ git clone https://github.com/Pongsakorn2341/kryptodian-backend.git
 ```
 
-## Diagram
-![Diagram](./kryptodian-diagram.jpg)
+2. Install the dependencies
+```bash
+$ yarn install
+```
+
+3. Setup ENV
+
+```
+NEXTAUTH_URL=                   # Your application url eg. http://localhost:3000
+NEXTAUTH_SECRET=                # Your secret or can get from command `openssl rand -base64 32`
+NEXT_PUBLIC_BACKEND_URL=        # Your backend url is started at eg. http://localhost:4444
+```
+
+### Running the Application
+
+1. Build Nextjs
+```bash
+$ yarn dev
+```
+
+2. Open your browser and navigate to `http://localhost:3000` to see the application in action.
+
+### Building for Production
+
+```bash
+$ yarn build
+$ yarn start
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 ## Docker Compose file
 
@@ -92,45 +160,8 @@ volumes:
 
 ```
 
-## ENV Usage
-Add your application configuration to your .env file in the root of kryptodian-frontend project:
-```
-NEXTAUTH_URL=                   # Your application url eg. http://localhost:3000
-NEXTAUTH_SECRET=                # Your secret or can get from command `openssl rand -base64 32`
-NEXT_PUBLIC_BACKEND_URL=        # Your backend url is started at eg. http://localhost:4444
-```
 
-
-## Quick Install
-Once you've downloaded the boilerplate and installed all the prerequisites, you're just a few steps away from starting to develop your MEAN application.
-
-The boilerplate comes pre-bundled with a `package.json` and `bower.json` files that contain the list of modules you need to start your application.
-
-To install the dependencies, run this in the application folder from the command-line:
-
-```bash
-$ yarn install
-```
-
-This command does a few things:
-* First it will install the dependencies needed for the application to run.
-* If you're running in a development environment, it will then also install development dependencies needed for testing and running your application.
-* When the npm packages install process is over, npm will initiate a bower install command to install all the front-end modules needed for the application
-* To update these packages later on, just run `yarn install`
-
-## Running Your Application
-
-Run your application using npm:
-
-```bash
-$ yarn build
-$ yarn start
-```
-
-Your application should run on port 3000 with the *development* environment configuration, so in your browser just go to [http://localhost:3000](http://localhost:3000)
-
-That's it! Your application should be running. To proceed with your development, check the other sections in this documentation.
-If you encounter any problems, try the Troubleshooting section.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Contact
@@ -139,3 +170,36 @@ Pongsakorn Parsoppornpiboon - pongsakorn.psb@gmail.com
 Github : https://github.com/Pongsakorn2341
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: images/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
+[Svelte-url]: https://svelte.dev/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com 
