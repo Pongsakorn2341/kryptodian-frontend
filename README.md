@@ -184,6 +184,10 @@ $ cd krptodian
 $ docker compose up -d
 ```
 
+
+> Currently this web application use only 1 data provider which is an CoinGecko
+> This web application is not including the Test Case Scenario
+
 ## Contact
 
 Pongsakorn Parsoppornpiboon - pongsakorn.psb@gmail.com
