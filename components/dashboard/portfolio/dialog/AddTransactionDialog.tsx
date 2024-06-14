@@ -34,7 +34,6 @@ import { useAddTransactionModal } from "@/store/useAddTransactionModal";
 import { ICoin } from "@/types/coins/coin";
 import { ITransaction } from "@/types/transaction";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { watch } from "fs";
 import { CheckIcon, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -75,6 +74,9 @@ const AddTransactionDialog = ({ coins, txData }: AddTransactionDialogProps) => {
 
   const form = useForm<ISchema>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      action: "BUY",
+    },
   });
   const router = useRouter();
   const { errors } = form.formState;
