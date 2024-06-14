@@ -52,6 +52,8 @@ Make sure you have installed all of the following prerequisites on your developm
     │   └── docker-compose.yml          # docker file for start web application
     └── ...
 
+## Getting Start
+
 ### Installation
 
 1. Clone the repository.
