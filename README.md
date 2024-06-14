@@ -71,7 +71,7 @@ $ yarn install
 
 3. Setup ENV
 
-ENV for development
+* ENV for development
 ```
 NEXTAUTH_URL=http://localhost:3000
 
@@ -81,7 +81,7 @@ NEXTAUTH_SECRET=
 NEXT_PUBLIC_BACKEND_URL=http://localhost:4444/api/v1
 ```
 
-ENV for docker compose startup
+* ENV for docker compose startup
 ```
 # http://{frontend_service_name}:{frontend_port}
 NEXTAUTH_URL=http://frontend:3000
