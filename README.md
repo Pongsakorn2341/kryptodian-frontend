@@ -4,7 +4,7 @@
 <br />
 <div align="center">
      <a href="https://github.com/Pongsakorn2341/kryptodian-frontend">
-    <img src="./public/images/kryptodian-image.jpg" alt="Logo" width="80" height="80">
+    <img src="./public/images/kryptodian-image.jpg" alt="Logo" width="400" height="80">
   </a>
   <h3 align="center">Kryptodian Portfolio for Test</h3>
 
